@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>光绪恒春县志物产专题知识库</title>
+    <!-- 引入国内稳定的ECharts图谱库 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a3d2f;
+            --gold-color: #d4af37;
+            --bg-color: #f8f5ee;
+            --text-color: #222222;
+            --light-text: #666666;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 12px 40px rgba(26, 61, 47, 0.12);
+        }
+
+        body {
+            font-family: 'SimSun', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231a3d2f' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* 顶部导航栏 */
+        .header-nav {
+            width: 100%;
+            padding: 16px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: rgba(248, 245, 238, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 1px solid rgba(26, 61, 47, 0.08);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .nav-logo span {
+            width: 3px;
+            height: 20px;
+            background-color: var(--gold-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 16px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-menu a.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* 通用区块标题 */
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 0 auto 40px;
+            padding-top: 60px;
+        }
+
+        /* 首屏核心区域 */
+        .hero-section {
+            width: 100%;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--light-text);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        /* 搜索框 */
+        .search-box {
+            width: 100%;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            height: 60px;
+            padding: 0 24px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-family: 'SimSun', serif;
+            color: var(--text-color);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-btn {
+            width: 70px;
+            height: 60px;
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-btn:hover {
+            background-color: #25523f;
+        }
+
+        .search-tip {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 40px;
+        }
+
+        /* 统计卡片 */
+        .stats-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-card {
+            padding: 16px 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-top: 4px;
+        }
+
+        /* 核心物产展台 */
+        .exhibition-section {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .exhibition-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .exhibition-grid {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .exhibit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .exhibit-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .exhibit-book {
+            width: 180px;
+            height: 240px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 16px;
+            position: relative;
+            border: 1px solid rgba(26, 61, 47, 0.1);
+        }
+
+        .exhibit-book img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .exhibit-book .book-seal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height:40px;
+            background-color: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--gold-color);
+            transform: rotate(-15deg);
+        }
+
+        .exhibit-pedestal {
+            width: 220px;
+            height: 20px;
+            background: linear-gradient(to bottom, #e8e4db, #d8d4cb);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .exhibit-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        /* 分类标签栏 */
+        .category-tab {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 50px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+
+        .tab-item {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+        }
+
+        .tab-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-item:hover:not(.active) {
+            color: var(--primary-color);
+            background-color: rgba(26, 61, 47, 0.05);
+        }
+
+        /* 物产列表网格 */
+        .product-grid {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 280px;
+            background-color: var(--bg-color);
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 16px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+
+        .product-category {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: rgba(26, 61, 47, 0.08);
+            color: var(--primary-color);
+            font-size: 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .product-alias, .product-origin, .product-usage {
+            font-size: 14px;
+            color: var(--light-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-bottom: 4px;
+        }
+
+/* 首页检索答案展示区 */
+.answer-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: -70px auto 60px !important; /* 加了 !important 强制生效 */
+    padding: 0 20px !important;
+    display: none;
+}
+
+.answer-section.active {
+    display: block !important;
+}
+
+        .answer-box {
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .answer-content {
+            padding: 24px;
+            border-bottom: 1px solid #eee;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+/* 👇 新增：标题与内容间距（核心修改这里！） */
+.answer-section .section-title {
+    margin-bottom: 10px !important;
+}
+
+        /* 隐藏的区块（点击导航后显示） */
+        .hidden-section {
+            display: none;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        .hidden-section.active {
+            display: block;
+        }
+
+        /* 知识图谱区块样式 */
+        .graph-section {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .graph-container {
+            width: 100%;
+            height: 750px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .graph-filter {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* AI问答页样式 */
+.ai-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 30px; /* 增加顶部边距，可按需微调 */
+}
+
+/* 修改后 */
+.ai-search-box {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 50px; /* 改为大圆角 */
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+        .ai-search-input {
+            flex: 1;
+            height: 60px;
+            padding: 0 24px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-family: 'SimSun', serif;
+            color: var(--text-color);
+        }
+
+        .ai-search-input::placeholder {
+            color: #999;
+        }
+
+        .ai-search-btn {
+            width: 100px;
+            height: 60px;
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-search-btn:hover {
+            background-color: #25523f;
+        }
+
+        .ai-tip {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+.ai-history {
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    min-height: 500px; /* 固定最小高度，让大框显示出来 */
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 20px; /* 增加内边距，让内容不贴边 */
+    margin-bottom: 20px; /* 与下方搜索框保持间距 */
+}
+
+/* 1. 对话气泡基础布局（AI消息靠左） */
+.ai-message {
+    display: flex;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: none; /* 去掉原来的分割线 */
+    max-width: 100%;
+}
+
+/* 2. 用户消息：反转布局，让气泡靠右 */
+.ai-message.user {
+    flex-direction: row-reverse;
+    background-color: transparent; /* 去掉原来的浅背景 */
+}
+
+/* 3. 角色标签（AI/用户文字，可选隐藏） */
+.ai-message .role {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 40px;
+    display: none; /* 隐藏AI/用户文字 */
+}
+
+/* 4. 消息气泡容器 */
+.ai-message > div:last-child {
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 70%; /* 限制气泡最大宽度，避免太宽 */
+    line-height: 1.6;
+    word-break: break-word; /* 防止长文本溢出 */
+}
+
+/* 5. AI气泡样式（左侧，和主题浅绿统一） */
+.ai-message > div:last-child {
+    background-color: rgba(26, 61, 47, 0.08);
+    border-bottom-left-radius: 4px; /* 左下角尖角，更像聊天框 */
+}
+
+/* 6. 用户气泡样式（右侧，浅白/浅灰区分） */
+.ai-message.user > div:last-child {
+    background-color: #f8f9fa; /* 浅灰背景，和AI区分 */
+    border-bottom-right-radius: 4px; /* 右下角尖角 */
+    text-align: right; /* 文字右对齐 */
+}
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 20px;
+            }
+            .nav-menu {
+                gap: 20px;
+                font-size: 14px;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .exhibition-grid {
+                gap: 20px;
+            }
+            .exhibit-book {
+                width: 140px;
+                height: 190px;
+            }
+            .graph-container {
+                height: 500px;
+            }
+            .detail-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+/* ↓↓↓ 把新代码粘贴在这里 ↓↓↓ */
+        /* 物产浏览页面上边距重置，消除多余空白 */
+        #list-section {
+            padding-top: 20px;
+        }
+        #list-section .section-title {
+            padding-top: 0;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        /* ↑↑↑ 粘贴结束 ↑↑↑ */
+
+/* 知识图谱、关于平台页面上边距同步重置 */
+        #graph-section,
+        #about-section {
+           padding-top: 20px;
+        }
+        #graph-section .section-title,
+        #about-section .section-title {
+           padding-top: 0;
+           margin-top: 0;
+           margin-bottom: 30px;
+        }
+
+/* 隐藏所有页面的大标题，直接显示内容 */
+#list-section .section-title,
+#graph-section .section-title,
+#about-section .section-title {
+    display: none;
+}
+
+/* 同时进一步缩小这些页面的顶部内边距，让内容更靠上 */
+#list-section,
+#graph-section,
+#ai-section,
+#about-section {
+    padding-top: 20px; /* 可按需微调这个数值，越小越靠上 */
+}
+
+/* 👇 新增这一段！单独修改【关于平台】上边距 */
+#about-section {
+  padding-top: 5px; /* 数值越大，关于平台页面越往下移，按需改 */
+}
+
+/* ========================================
+   详情页三列布局：左图+中信息+右元数据 整体居中+对齐修复
+   ======================================== */
+
+/* 1. 详情页容器：解决整体太靠页面顶部的核心 */
+#detail-section {
+    display: none !important;
+    /* --- 调整这个数字，控制整体内容距离页面顶部的距离，数字越大越靠下 --- */
+    padding: 75px 20px 30px !important; 
+    width: 100% !important;
+}
+#detail-section.active {
+    display: block !important;
+}
+
+/* 2. 面包屑：和三列内容宽度对齐，整体居中 */
+#detail-section .detail-bread {
+    max-width: 1200px !important;
+    margin: 0 auto 20px !important;
+    color: var(--light-text);
+}
+#detail-section .detail-bread span {
+    color: var(--primary-color);
+}
+
+/* 3. 核心：三列布局容器 整体水平居中 */
+.detail-three-col-wrapper {
+    display: flex;
+    gap:40px; /* 三列之间的间距，数字越大空隙越大 */
+    align-items: flex-start; /* 强制三列顶部对齐 */
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto !important;
+    flex-wrap: wrap;
+}
+
+/* 4. 左侧图片容器：和右侧内容顶部严格对齐 */
+#detail-section .detail-img {
+    width: 320px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    background: #f7f7f7 !important;
+    flex-shrink: 0 !important;
+    /* --- 图片下移距离，和中间、右侧的padding-top保持完全一致，才能对齐 --- */
+    margin-top: 8px !important;
+}
+#detail-section .detail-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* 5. 中间：物产基础信息容器 对齐修复核心 */
+.detail-base-info {
+    flex: 1.4;
+    min-width: 280px;
+    /* --- 和图片的margin-top、右侧元数据的padding-top保持完全一致 --- */
+    padding-top: 40px !important;
+}
+/* 中间大标题：和右侧元数据标题严格对齐 */
+.detail-base-info h2 {
+    color: var(--primary-color);
+    margin: 0 0 18px 0 !important;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+/* 6. 右侧：元数据信息容器 对齐修复核心 */
+.detail-meta-info {
+    flex: 1;
+    min-width: 280px;
+    /* --- 和图片的margin-top、中间信息的padding-top保持完全一致 --- */
+    padding-top: 44px !important;
+}
+/* 右侧元数据标题：和中间大标题严格对齐 */
+.detail-meta-info h4 {
+    color: var(--primary-color);
+    margin: 0 0 18px 0 !important;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+/* 7. 通用信息标签：统一行高，让每行内容完美对齐 */
+#detail-section .info-item {
+    display: flex;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 1.9; /* 统一行高，解决左右行错位 */
+    margin-bottom: 4px;
+}
+#detail-section .info-item .label {
+    font-weight: 600;
+    color: var(--primary-color);
+    min-width: 70px;
+    flex-shrink: 0;
+}
+
+/* 8. 下方县志原文：和上方三列宽度对齐，居中 */
+#detail-section .detail-original {
+    max-width: 1200px !important;
+    margin: 35px auto 0 !important;
+    padding: 24px !important;
+    background: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    font-family: 'SimSun', serif;
+    line-height: 2;
+    color: var(--text-color);
+}
+#detail-section .detail-original h4 {
+    color: var(--primary-color);
+    margin: 0 0 16px 0;
+}
+
+/* 9. 响应式适配：小屏幕自动换行，避免挤压 */
+@media (max-width: 1100px) {
+    .detail-three-col-wrapper {
+        max-width: 700px;
+    }
+    .detail-meta-info {
+        width: 100%;
+        padding-top: 20px !important;
+    }
+}
+@media (max-width: 768px) {
+    #detail-section {
+        padding: 30px 15px !important;
+    }
+    .detail-three-col-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    #detail-section .detail-img {
+        margin-top: 0 !important;
+    }
+    .detail-base-info, .detail-meta-info {
+        width: 100%;
+        max-width: 320px;
+        padding-top: 0 !important;
+    }
+}
+
+/* 欢迎语气泡，和AI消息样式完全统一 */
+.ai-welcome {
+    background-color: rgba(26, 61, 47, 0.08);
+    padding: 12px 16px;
+    border-radius: 18px;
+    border-bottom-left-radius: 4px;
+    display: inline-block;
+    max-width: 70%;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* 修改后：ai-tip改为flex布局 */
+.ai-tip {
+    font-size: 14px;
+    color: var(--light-text);
+    text-align: left; /* 改为左对齐 */
+    margin-bottom: 40px;
+    display: flex; /* 关键：让文字和按钮在同一行 */
+    align-items: center; /* 垂直居中 */
+    gap: 12px; /* 文字与按钮之间的间距 */
+    flex-wrap: wrap; /* 小屏幕自动换行 */
+}
+
+/* 示例按钮样式（保留，微调间距） */
+.example-btn {
+    padding: 6px 14px;
+    background-color: white;
+    border: 1px solid rgba(26, 61, 47, 0.15);
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'SimSun', serif;
+    flex-shrink: 0; /* 防止按钮被压缩 */
+}
+
+.example-btn:hover {
+    background-color: rgba(26, 61, 47, 0.05);
+    border-color: var(--primary-color);
+}
+
+.example-btn {
+    padding: 6px 14px;
+    background-color: white;
+    border: 1px solid rgba(26, 61, 47, 0.15);
+    border-radius: 20px;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'SimSun', serif;
+}
+
+.example-btn:hover {
+    background-color: rgba(26, 61, 47, 0.05);
+    border-color: var(--primary-color);
+}
+    /* 新增：AI加载动画 */
+    .loading-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        animation: loading 1.4s infinite ease-in-out both;
+        margin: 0 2px;
+    }
+    .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes loading {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
+    }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="header-nav">
+        <div class="nav-logo">
+            <span></span>
+            恒春县志物产知识库
+        </div>
+        <div class="nav-menu">
+            <a class="active" onclick="showSection('home')">首页</a>
+            <a onclick="showSection('list')">物产浏览</a>
+            <a onclick="showSection('graph')">知识图谱</a>
+            <a onclick="showSection('ai')">AI问答</a>
+            <a onclick="showSection('about')">关于平台</a>
+            <!-- 仅保留登录按钮 -->
+            <a href="/login" style="margin-left: 0px;">登录</a>
+        </div>
+    </nav>
+
+    <!-- 首屏核心区域（默认显示） -->
+    <section class="hero-section" id="home-section">
+        <h1 class="hero-title">光绪恒春县志物产专题知识库</h1>
+        <p class="hero-subtitle">以清光绪18年《恒春县志·物产》为核心数据源，从中精选收录38种物产元数据、189条命名实体、304条关系三元组，打造专属古籍专题知识服务平台</p>
+        
+<!-- 搜索框 -->
+<div class="search-box">
+<input type="text" class="search-input" id="mainSearch" placeholder="请输入物产名、别名、分类、用途、产地、形态、县志原文关键词" 
+       onkeyup="if(event.key==='Enter')searchProduct()"
+       oninput="handleInputChange()">
+    <!-- 👇 新增：清空按钮 -->
+    <button class="search-btn" onclick="document.getElementById('mainSearch').value='';handleInputChange();document.getElementById('answer-section').style.display='none';" style="background:#9eab6b;">✕</button>
+    <button class="search-btn" onclick="searchProduct()">🔍</button>
+</div>
+        <p class="search-tip">可通过上方检索框，或点击下方精选物产图片，快速查看详细信息</p>
+
+        <!-- AI答案展示区（搜索/点击后显示）【已移到这里，搜索框正下方】 -->
+        <section class="answer-section" id="answer-section">
+            <h2 class="section-title">检索结果详情</h2>
+            <div class="answer-box">
+                <div id="answerContent" class="answer-content">
+                    <!-- 由JS动态渲染 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 统计卡片 -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-num">38</div>
+                <div class="stat-label">物产总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">189</div>
+                <div class="stat-label">实体总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">304</div>
+                <div class="stat-label">关系总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">29</div>
+                <div class="stat-label">引用典籍</div>
+            </div>
+        </div>
+
+        <!-- 核心物产精选 -->
+        <h2 class="exhibition-title">核心物产精选</h2>
+        <div class="exhibition-grid">
+            <div class="exhibit-item" onclick="searchAndShow('稻')">
+                <div class="exhibit-book">
+                    <img src="https://img.cdn1.vip/i/69fc88e36f2ee_1778157795.webp" alt="稻">
+                    <div class="book-seal">榖之属</div>
+                </div>
+                <div class="exhibit-name">稻</div>
+                <div class="exhibit-pedestal"></div>
+            </div>
+            <div class="exhibit-item" onclick="searchAndShow('麦')">
+                <div class="exhibit-book">
+                    <img src="https://img.cdn1.vip/i/69fc88ec17954_1778157804.webp" alt="麦">
+                    <div class="book-seal">榖之属</div>
+                </div>
+                <div class="exhibit-name">麦</div>
+                <div class="exhibit-pedestal"></div>
+            </div>
+            <div class="exhibit-item" onclick="searchAndShow('芦菔')">
+                <div class="exhibit-book">
+                    <img src="https://img.cdn1.vip/i/69fc890303475_1778157827.webp" alt="芦菔">
+                    <div class="book-seal">蔬之属</div>
+                </div>
+                <div class="exhibit-name">芦菔（萝卜）</div>
+                <div class="exhibit-pedestal"></div>
+            </div>
+            <div class="exhibit-item" onclick="searchAndShow('西瓜')">
+                <div class="exhibit-book">
+                    <img src="https://img.cdn1.vip/i/69fc8936b91e8_1778157878.webp" alt="西瓜">
+                    <div class="book-seal">瓜之属</div>
+                </div>
+                <div class="exhibit-name">西瓜</div>
+                <div class="exhibit-pedestal"></div>
+            </div>
+            <div class="exhibit-item" onclick="searchAndShow('槟榔')">
+                <div class="exhibit-book">
+                    <img src="https://img.cdn1.vip/i/69fc894043d3e_1778157888.webp" alt="槟榔">
+                    <div class="book-seal">果之属</div>
+                </div>
+                <div class="exhibit-name">槟榔</div>
+                <div class="exhibit-pedestal"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 物产浏览区块（隐藏，点击导航后显示） -->
+    <section class="hidden-section" id="list-section">
+        <h2 class="section-title">物产浏览</h2>
+        <!-- 分类标签栏 -->
+        <div class="category-tab">
+            <div class="tab-item active" onclick="switchCategory('all', this)">全部</div>
+            <div class="tab-item" onclick="switchCategory('榖之属', this)">榖之属</div>
+            <div class="tab-item" onclick="switchCategory('蔬之属', this)">蔬之属</div>
+            <div class="tab-item" onclick="switchCategory('瓜之属', this)">瓜之属</div>
+            <div class="tab-item" onclick="switchCategory('果之属', this)">果之属</div>
+            <div class="tab-item" onclick="switchCategory('药之属', this)">药之属</div>
+            <div class="tab-item" onclick="switchCategory('其他', this)">其他分类</div>
+        </div>
+
+        <!-- 物产列表网格 -->
+        <div class="product-grid" id="productGrid">
+            <!-- 由JS动态渲染 -->
+        </div>
+    </section>
+
+<!-- 物产详情页（隐藏，点击卡片后显示） -->
+<section class="hidden-section" id="detail-section">
+    <div class="detail-bread" id="detailBread">
+    <button onclick="showSection('list')" style="margin-right:10px; padding:4px 10px; background:var(--primary-color); color:white; border:none; border-radius:4px; cursor:pointer;">← 返回</button>
+</div>
+
+    <!-- 核心三列布局容器：左图 + 中基础信息 + 右元数据 整体居中 -->
+    <div class="detail-three-col-wrapper">
+        <!-- 左侧：物产图片 -->
+        <div class="detail-img" id="detailImg"></div>
+        
+        <!-- 中间：物产基础信息（分类/别名/产地等） -->
+        <div id="detailInfo" class="detail-base-info"></div>
+        
+        <!-- 右侧：元数据信息 -->
+        <div id="detailMeta" class="detail-meta-info"></div>
+    </div>
+
+    <!-- 正下方：县志原文（通栏，和上方三列宽度对齐居中） -->
+    <div class="detail-original" id="detailOriginal"></div>
+</section>
+
+    <!-- 知识图谱区块（隐藏，点击导航后显示） -->
+    <section class="hidden-section" id="graph-section">
+        <div class="graph-section">
+            <h2 class="section-title">物产知识图谱</h2>
+            <div class="graph-filter">
+                <label class="filter-checkbox"><input type="checkbox" value="PROD" checked onchange="filterGraph()"> 物产主条目</label>
+                <label class="filter-checkbox"><input type="checkbox" value="ALIAS" checked onchange="filterGraph()"> 别名</label>
+                <label class="filter-checkbox"><input type="checkbox" value="CATEGORY" checked onchange="filterGraph()"> 物产分类</label>
+                <label class="filter-checkbox"><input type="checkbox" value="BOOK" checked onchange="filterGraph()"> 引用典籍</label>
+                <label class="filter-checkbox"><input type="checkbox" value="PER" checked onchange="filterGraph()"> 历史人物</label>
+                <label class="filter-checkbox"><input type="checkbox" value="LOC" checked onchange="filterGraph()"> 产地</label>
+                <label class="filter-checkbox"><input type="checkbox" value="USAGE" checked onchange="filterGraph()"> 用途</label>
+            </div>
+            <div id="graphContainer" class="graph-container"></div>
+        </div>
+    </section>
+
+    <!-- AI问答区块（隐藏，点击导航后显示） -->
+<!-- 修改后：正确的布局顺序 -->
+<section class="hidden-section" id="ai-section">
+    <div class="ai-section">
+        <!-- 1. 对话历史大框（包含欢迎语） -->
+        <div class="ai-history" id="aiHistory">
+            <!-- 欢迎语移到大框内部 -->
+            <div class="ai-welcome">
+                我是基于《恒春县志》38种物产构建的问答助手，请提问。
+            </div>
+            <!-- 对话历史由JS动态渲染 -->
+        </div>
+        
+        <!-- 2. 搜索框（在大框下方） -->
+        <div class="ai-search-box">
+            <input type="text" 
+       class="ai-search-input" 
+       id="aiInput" 
+       placeholder="向问答助手发问..."
+       onkeyup="if(event.key==='Enter') askAI()">  <!-- 加的就是这一行！ -->
+            <button class="ai-search-btn" onclick="askAI()">✈ 发送</button>
+        </div>
+        
+        <!-- 3. 示例行（文字与按钮同一行） -->
+        <div class="ai-tip">
+            示例：
+            <button class="example-btn" onclick="document.getElementById('aiInput').value='稻的别名有哪些？';askAI()">稻的别名有哪些？</button>
+            <button class="example-btn" onclick="document.getElementById('aiInput').value='恒春县产的药用物产有哪些？';askAI()">恒春县产的药用物产有哪些？</button>
+            <button class="example-btn" onclick="document.getElementById('aiInput').value='引用了《本草纲目》的物产有哪些？';askAI()">引用了《本草纲目》的物产有哪些？</button>
+        </div>
+    </div>
+</section>
+
+    <!-- 关于平台区块（隐藏，点击导航后显示） -->
+    <section class="hidden-section" id="about-section">
+        <div style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+            <h2 class="section-title">关于平台</h2>
+            <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: var(--card-shadow);">
+                <h3 style="color: var(--primary-color); margin-bottom: 20px;">平台简介</h3>
+                <p style="margin-bottom: 16px; line-height: 2;">《光绪恒春县志物产专题知识库》是古籍专题知识库课程实验综合成果，按照数字化、数据化、知识化、平台化完整流程搭建，以清光绪18年《恒春县志・物产》为唯一核心数据源，整合多实验成果打造方志物产知识服务平台。</p>
+                <h3 style="color: var(--primary-color); margin: 30px 0 20px;">数据来源</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>原始文本：</strong>实验二OCR清理后的《光绪18年恒春县志·物产》2700字规范文本</li>
+                    <li><strong>结构化数据：</strong>实验二构建的38条物产元数据、189条NER命名实体、304条关系三元组</li>
+                    <li><strong>知识图谱：</strong>实验二搭建的物产多维知识关联体系</li>
+                </ul>
+                <h3 style="color: var(--primary-color); margin: 30px 0 20px;">功能说明</h3>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>首页检索：</strong>支持物产名、别名、分类、用途关键词检索，点击精选物产可快速查看详情</li>
+                    <li><strong>物产浏览：</strong>支持全部分类筛选，可浏览全部38种物产信息，点击卡片查看完整详情</li>
+                    <li><strong>知识图谱：</strong>交互式力导向图展示实体与关联关系，支持筛选、拖拽、缩放、节点查询</li>
+                    <li><strong>AI问答：</strong>依托内置物产数据，支持自然语言提问，仅解答知识库范围内相关问题</li>
+                </ul>
+                <!-- 👇 新增：适用范围与说明（样式完全统一） -->
+                <h3 style="color: var(--primary-color); margin: 30px 0 20px;">适用范围与说明</h3>
+                <p style="margin-bottom: 16px; line-height: 2;">本平台为《古籍专题知识库建设》课程实验原型作品，仅用于学习交流与实验成果展示，不用于商业用途。所有数据均来源于课程实验整理成果，内容严格限定于《光绪恒春县志·物产》范畴，所有功能结果均以县志原文及结构化数据为依据。</p>
+            </div>
+        </div>
+    </section>
+
+<script>
+        // 页面一进来直接隐藏检索详情框
+        document.getElementById('answer-section').style.display = 'none';
+
+        // ===================== 1. 完整38条物产核心元数据 =====================
+        const productData = [
+    {name:"稻",category:"榖之属",alias:"稬、秔、稴、籼、稌",origin:"恒春县",usage:"主食食用",img:"https://img.cdn1.vip/i/69fc88e36f2ee_1778157795.webp",meta:{dc_title:"稻",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"谷物，分黏、次黏、不黏三类",dc_type:"古籍物产条目"},desc:"黏者为稬，次黏者为秔，不黏者为稴（籼）",original:"稻/黏者为稬次黏者为秔不黏者为稴稴即籼也本草云秔米主益气稻米主温中秔稻对举是以黏者为稻案说文稻稌也稌稻也稬下云沛国呼稻为稬稴下云稻不黏者秔下云稻属是无论黏与不黏皆得名之曰稻九榖攷以稌稻为大名斯得之矣"},
+    {name:"麦",category:"榖之属",alias:"麰、麳",origin:"恒春县",usage:"酿酒、制粉、做面食、酱、糕饼",img:"https://img.cdn1.vip/i/69fc88ec17954_1778157804.webp",meta:{dc_title:"麦",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"谷物，分大麦、小麦",dc_type:"古籍物产条目"},desc:"早熟曰大麦，晚熟曰小麦",original:"麦/分大麦小麦二种广雅云六麦麰也小麦麳也郑众注周官及汜胜之书酉阳杂俎农桑辑要皆分大麦小麦为九榖之二犹大豆小豆分二榖也早熟者曰大麦晚熟者曰小麦大麦可酿为火酒小麦屑粉作麫作酱作糕饼用处较大麦为多"},
+    {name:"豆",category:"榖之属",alias:"尗、荅、菽、荏菽",origin:"恒春县",usage:"食用",img:"https://img.cdn1.vip/i/69fc88f055ad0_1778157808.webp",meta:{dc_title:"豆",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"豆类，分大豆、小豆",dc_type:"古籍物产条目"},desc:"大豆有黑白黄三种，小豆有赤豆、白豆、江豆",original:"豆/有大小豆二种说文尗豆也荅小豆也广雅云大豆菽也小豆荅也尔雅戎菽谓之荏菽孙炎曰大豆也王祯农书曰大豆有黑白黄三种白者粥饭皆可拌食有小豆赤豆白豆江豆皆小豆类也湖雅云大豆小豆之分不在颗粒之大小故二豆颇难辨别今以煮熟糜烂者为小豆虽熟犹脆者为大豆分晰较明"},
+    {name:"脂麻",category:"榖之属",alias:"胡麻、油麻、巨胜",origin:"恒春县",usage:"榨油",img:"https://img.cdn1.vip/i/69fc88f36d7af_1778157811.webp",meta:{dc_title:"脂麻",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"油料作物，多脂油",dc_type:"古籍物产条目"},desc:"有黑白二种，白者油多",original:"脂麻/本草谓其多脂油也李时珍曰俗作芝麻非榖谱云一名胡麻一名油麻湖州府志云一名巨胜有黑白二种白者油多湖雅云此麻之别种或以当九榖之麻非也"},
+    {name:"芦菔",category:"蔬之属",alias:"莱菔、萝卜、紫花菘、温菘、破地锥、夏生、土酥",origin:"恒春县（冬生者多）",usage:"生熟食用、腌制、调味",img:"https://img.cdn1.vip/i/69fc890303475_1778157827.webp",meta:{dc_title:"芦菔",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"蔬菜，根叶皆可食",dc_type:"古籍物产条目"},desc:"沙壤者脆甘，瘠地者坚辣",original:"芦菔/一作莱菔一作萝卜一名紫花菘一名温菘本草纲目云生沙壤者脆而甘生瘠地坚而辣根叶皆可生可熟可菹可酱可豉可醋可糖可腊可饭乃蔬中之最有利益者王祯农书曰萝卜一种四名春曰破地锥夏曰夏生秋曰萝卜冬曰土酥恒邑冬生者多其性闭气与内地异病者忌食"},
+    {name:"姜",category:"蔬之属",alias:"紫芽姜",origin:"恒春县",usage:"食用调味、药用",img:"https://img.cdn1.vip/i/69fc8904c9ec2_1778157828.webp",meta:{dc_title:"姜",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"调味蔬菜、药材",dc_type:"古籍物产条目"},desc:"苗青根嫩白，老黄，秋社后新芽长",original:"姜/说文姜御湿之菜也蔬谱曰苗青根嫩白老黄无实秋社前后新芽顿长如列指状紫者名紫芽姜按姜为药中要品入食馔尤佳辛而不薰之品也本草经曰干姜主逐风湿痺肠澼下痢生者尤良久服去臭气通神明"},
+    {name:"葱",category:"蔬之属",alias:"菜伯、和事草、鹿胎、地葱、茖葱",origin:"恒春县",usage:"食用调味、药用",img:"https://img.cdn1.vip/i/69fc890892d0e_1778157832.webp",meta:{dc_title:"葱",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"调味蔬菜",dc_type:"古籍物产条目"},desc:"有冬葱、汉葱、山葱、胡葱，本地只有地葱",original:"葱/群芳谱云葱一名菜伯一名和事草一名鹿胎本草云食品用冬葱汉葱入药用山葱胡葱蔬谱云一种楼葱江南人呼为龙角葱羊角葱恒邑有地葱无天葱本草曰茖葱油葱也五荤之一楞严经云五荤熟食发滛生啖增恚故释氏戒之"},
+    {name:"蒜",category:"蔬之属",alias:"葫、胡蒜、泽蒜、石蒜",origin:"恒春县",usage:"食用、腌制、药用",img:"https://img.cdn1.vip/i/69fc890d5ae01_1778157837.webp",meta:{dc_title:"蒜",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"调味蔬菜，分大蒜、小蒜",dc_type:"古籍物产条目"},desc:"小蒜名蒜，大蒜名葫",original:"蒜/有大蒜小蒜之别说文蒜荤菜段注曰夏小正十二月纳卵蒜今之小蒜也陶贞白云小蒜名蒜大蒜名葫尔雅翼云葫又称胡蒜以自胡中来故名蔬谱云小蒜一名泽蒜又名石蒜蒜头腌藏或用醋浸亦美可愈泄痢"},
+    {name:"菘",category:"蔬之属",alias:"白菜、水晶菜、牛肚菘、牛胫菘、青菘、青菜",origin:"恒春县",usage:"食用",img:"https://img.cdn1.vip/i/69fc8912774cc_1778157842.webp",meta:{dc_title:"菘",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"蔬菜，即白菜",dc_type:"古籍物产条目"},desc:"性凌寒不凋，肥大者名牛肚菘、牛胫菘",original:"菘/菘性凌寒不凋四时常见有松之操故其字会意菜谱有春菘晚菘按菘即白菜冬月尤佳所谓秋末晚菘也杨诚斋名白菜为水晶菜本草云最肥大者名牛肚菘湖雅曰牛胫菘亦曰牛肚菘白菜之最肥大者也恒邑有之其青者曰青菜即青菘较小"},
+    {name:"芋",category:"蔬之属",alias:"蹲鸱、芋头、芋子、芋嬭",origin:"恒春县",usage:"食用",img:"https://img.cdn1.vip/i/69fc89143c56b_1778157844.webp",meta:{dc_title:"芋",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"根茎作物",dc_type:"古籍物产条目"},desc:"大叶实根，当心出苗者为芋头，旁生为芋子、芋嬭",original:"芋/说文大叶实根骇人故谓之芋也史记索隐曰芋蹲鸱也寇宗奭曰当心出苗者为芋头四边附之而生为芋子李时珍曰旱地山地可种水芋水田莳之水芋味胜种芋法云大者谓之芋头旁出小者谓之芋嬭"},
+    {name:"甘藷",category:"蔬之属",alias:"朱藷、玉枕藷、番藷、山藷、地瓜",origin:"恒春县",usage:"代粮、制丝、制粉",img:"https://img.cdn1.vip/i/69fc8932acce5_1778157874.webp",meta:{dc_title:"甘藷",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"根茎作物，代粮食",dc_type:"古籍物产条目"},desc:"根似芋，紫皮，肉白如肪",original:"甘藷/群芳谱云甘藷一名朱藷大者名玉枕藷甘藷疏云藷有二种一名番藷一名山藷番藷甚甘山藷稍劣异物志云其根似芋剥去紫皮肌肉正白如肪恒邑产者皆山藷或为丝或为粉以代粮食俗谓之地瓜"},
+    {name:"薯蓣",category:"蔬之属",alias:"山药、藷藇、山芋、藷薯、儿草、土藷、玉延、修脆",origin:"恒春县",usage:"食用、入馔、药用",img:"https://img.cdn1.vip/i/69fc893448660_1778157876.webp",meta:{dc_title:"薯蓣",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"药食两用作物，即山药",dc_type:"古籍物产条目"},desc:"根茎壮肥，味甘性和稍凉",original:"薯蓣/即山药本草山药一名藷藇一名山芋一名藷薯一名儿草群芳谱云山药原名藷蓣一名土藷一名玉延一名修脆湖录澄水帛薯蓣避唐太宗讳改名薯药避宋英宗讳遂名山药再迁而本字尽亡矣恒邑产者薯蓣壮而肥味甘性和稍凉用以入馔郡人时来购买"},
+    {name:"西瓜",category:"瓜之属",alias:"寒瓜",origin:"恒春县",usage:"食用",img:"https://img.cdn1.vip/i/69fc8936b91e8_1778157878.webp",meta:{dc_title:"西瓜",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"果瓜",dc_type:"古籍物产条目"},desc:"有红瓤、黄瓤、白瓤，本地皆红瓤",original:"西瓜/本草一名寒瓜李时珍曰胡峤征回纥得此种归名曰西瓜则五代时始入中国陶宏景注永嘉有寒瓜甚大可藏至春者即此也有红瓤黄瓤白瓤三种浙西皮瓤子三白者味甚甘为上绿皮黄瓤者次之红瓤者又次之恒产皆红瓤也"},
+    {name:"南瓜",category:"瓜之属",alias:"番瓜、倭瓜、飰瓜、阴瓜",origin:"恒春县",usage:"代粮、食用、子可食",img:"https://img.cdn1.vip/i/69fc8939080bf_1778157881.webp",meta:{dc_title:"南瓜",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"果瓜，贫家代粮",dc_type:"古籍物产条目"},desc:"秋熟色黄如金，皮薄",original:"南瓜/一名番瓜北方呼曰倭瓜湖录云相传自番中来贫家以之代飰俗名飰瓜王祯农书曰浙中一种阴瓜宜阴地种之秋熟色黄如金皮肤稍薄可藏至春食之如新本草纲目疑即此瓜是也子亦可煼代作果又云久食可断鸦片瘾生擣汁觧生鸦片毒"},
+    {name:"丝瓜",category:"瓜之属",alias:"洗锅罗瓜、天罗絮",origin:"恒春县",usage:"食用、涤器、药用",img:"https://img.cdn1.vip/i/69fc893c35a18_1778157884.webp",meta:{dc_title:"丝瓜",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"瓜类蔬菜，老可涤器",dc_type:"古籍物产条目"},desc:"嫩可食，老则筋络如网",original:"丝瓜/本草纲目云嫩时去皮可烹可曝点茶充蔬老则筋络纒纽惟可藉鞾履涤釜噐故村人呼为洗锅罗瓜蔬谱云瓜丝如网可涤噐名曰天罗絮湖雅曰络及藤并入药络可涤砚"},
+    {name:"凤棃",category:"果之属",alias:"黄棃",origin:"恒春县庄社、后山番社",usage:"食用",img:"https://img.cdn1.vip/i/69fc893e7afed_1778157886.webp",meta:{dc_title:"凤棃",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"热带水果",dc_type:"古籍物产条目"},desc:"长圆如甜瓜，表皮凸凹如佛头舍利，色红黄",original:"凤棃/长圆如甜瓜凸凹如佛头舍利色红黄味甘性热土人呼为黄棃必用盐水溅食否则易致痧症煼鸡猪肉极佳生时置之几案颇有清香"},
+    {name:"槟榔",category:"果之属",alias:"仁频",origin:"恒春县番社",usage:"食用、礼仪待客",img:"https://img.cdn1.vip/i/69fc894043d3e_1778157888.webp",meta:{dc_title:"槟榔",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"热带果物，民俗礼仪用",dc_type:"古籍物产条目"},desc:"树高十余丈，实形如黑枣",original:"槟榔/南方草木状云槟榔树十余丈皮似青铜节如桂竹下本不大上枝不小仙药录云槟榔一名仁频恒邑产于番社者多形如黑枣裹以栳叶石灰男妇皆喜啖之不绝于口遇有婚姻大事及平时客至皆以槟榔为礼"},
+    {name:"龙眼",category:"果之属",alias:"荔枝奴",origin:"恒春县署二堂前",usage:"食用",img:"https://img.cdn1.vip/i/69fc894236147_1778157890.webp",meta:{dc_title:"龙眼",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"热带珍果",dc_type:"古籍物产条目"},desc:"荔枝过即龙眼熟",original:"龙眼/魏文帝诏南方果之珍异者有龙眼令贡焉南方草木状云荔枝过即龙眼熟故谓之荔枝奴言随其后也恒署二堂前左右两树有实为台飓吹落"},
+    {name:"椰子",category:"果之属",alias:"越王头",origin:"恒春县",usage:"食用、酿酒",img:"https://img.cdn1.vip/i/69fc8c0a7b740_1778158602.webp",meta:{dc_title:"椰子",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"热带果物",dc_type:"古籍物产条目"},desc:"实大如寒瓜，外有硬壳，内有白肤、浆汁",original:"椰子/南方草木状云椰实大如寒瓜外有殻圆而坚剖之有白肤厚半寸味似胡桃极美有浆饮之得醉俗谓之越王头昔林邑王与越王有怨遣人刺得其首化为椰子当刺时越王大醉故其浆亦如酒"},
+    {name:"罗佛山茶",category:"茶之属",alias:"无",origin:"恒春县东北三十里罗佛山",usage:"饮用",img:"https://img.cdn1.vip/i/69fc894de8fb1_1778157901.webp",meta:{dc_title:"罗佛山茶",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"本地特产茶叶",dc_type:"古籍物产条目"},desc:"味清色红，年产仅数十斤",original:"罗佛山茶/距县城东北三十里其地崇山崟岭知县周有基购茶秧教民种植并建茅屋三四间以为憩息之所今废其茶味甚清色红十余年来未能推而广之每年所产不过数十斤"},
+    {name:"茯苓",category:"药之属",alias:"茯灵、茯兔、茯神",origin:"恒春县后山松下",usage:"药用",img:"https://img.cdn1.vip/i/69fc894c21b98_1778157900.webp",meta:{dc_title:"茯苓",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"菌类药材",dc_type:"古籍物产条目"},desc:"附松根生，作块如拳，皮黑肉有赤白二色",original:"茯苓茯神/本草云松脂千年为茯苓又千年为琥珀今人往往于松下得茯苓有重斤许者本草释名茯苓亦名茯灵一名茯兔抱木者名茯神鄞县志曰出大松下附根而生无苗叶花实作块如拳在土底大者数斤似人形者佳皮黑肉有赤白二种今恒邑后山产者重至数斤不易得得而服之洵可延年"},
+    {name:"鸡血藤",category:"药之属",alias:"无",origin:"恒春县番社",usage:"药用、熬膏",img:"https://img.cdn1.vip/i/69fc894f7f03a_1778157903.webp",meta:{dc_title:"鸡血藤",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"藤本药材，汁如鸡血",dc_type:"古籍物产条目"},desc:"皮青紫色多皴，断汁鲜红如鸡血",original:"鸡血藤/粗细不一有大如臂者皮青紫色多皴断之汁涌而出鲜红如鸡血故名按云南向有此膏为妇科要药今台北药肆在大嵙崁一带取藤熬膏亦良法须随斫随熬乾则无用矣恒邑产自番社番人固不知此庄民亦未有取而熬之者"},
+    {name:"百合",category:"药之属",alias:"重箱、中逢花、重迈、中庭、摩罗春",origin:"恒春县",usage:"食用、药用润肺",img:"https://img.cdn1.vip/i/69fc89530fc8b_1778157907.webp",meta:{dc_title:"百合",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"药食两用花卉",dc_type:"古籍物产条目"},desc:"鳞茎如蒜，数十片相累如莲花",original:"百合/甘平润肺清朱二曰久肺虚则宜歛百合之甘歛胜于五味之酸歛本草一名重箱一名中逢花一名重迈一名中庭群芳谱曰百合一名摩罗春有麝香珍珠二种尔雅翼曰小者如蒜大者如枕数十斤相累状如白莲花故名百合言百片合成也"},
+    {name:"车前子",category:"药之属",alias:"芣苢、马舄、车前、当道、虾蟇衣",origin:"恒春县道旁",usage:"药用",img:"https://img.cdn1.vip/i/69fc895566e67_1778157909.webp",meta:{dc_title:"车前子",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"草本药材",dc_type:"古籍物产条目"},desc:"大叶长穗，好生道旁",original:"车前子/尔雅芣苢马舄马舄车前注今车前草大叶长穗好生道旁江东呼为虾蟇衣陆玑疏云马舄一名车前一名当道喜在牛迹中生故曰车前当道也今药中车前子是也"},
+    {name:"芭蕉",category:"草之属",alias:"芭苴、天苴、扇仙",origin:"恒春县",usage:"观赏、食用花苞甘露",img:"https://img.cdn1.vip/i/69fc8958bd852_1778157912.webp",meta:{dc_title:"芭蕉",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"草本植物",dc_type:"古籍物产条目"},desc:"大叶，花苞有甘露，根肥如胆瓶",original:"芭蕉/群芳谱云一名芭苴一名天苴一名扇仙又云芭蕉花苞中积水如蜜名甘露侵晨取食甚香止渴延龄根出土时肥饱状如胆瓶"},
+    {name:"木棉",category:"木之属",alias:"无",origin:"恒春县东门城内",usage:"产棉",img:"https://img.cdn1.vip/i/69fc895d09153_1778157917.webp",meta:{dc_title:"木棉",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"乔木",dc_type:"古籍物产条目"},desc:"高大如桑，棉铃似碗",original:"木棉/高大如檿桑棉铃似椀知县罗建祥购种粤东教民栽种于东门城内特开棉圃建茅屋数椽嗣以风害树皆萎今所存者仅一二树刁刁调调昕宵摇落卒未能收其利焉"},
+    {name:"鸡",category:"禽之属",alias:"无",origin:"恒春县民家",usage:"食用、蓄养",img:"https://img.cdn1.vip/i/69fc895f62882_1778157919.webp",meta:{dc_title:"鸡",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"家禽",dc_type:"古籍物产条目"},desc:"五德之禽",original:"鸡/五德之禽人家常畜"},
+    {name:"鸭",category:"禽之属",alias:"凫、鹜",origin:"恒春县民家、龙銮潭",usage:"食用",img:"https://img.cdn1.vip/i/69fc896122b47_1778157921.webp",meta:{dc_title:"鸭",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"水禽",dc_type:"古籍物产条目"},desc:"野鸭曰凫，家鸭曰鹜",original:"鸭/野鸭曰凫家鸭曰鹜"},
+    {name:"鹭",category:"禽之属",alias:"舂鉏",origin:"恒春县浅水区域",usage:"观赏",img:"https://img.cdn1.vip/i/69fc8962526ec_1778157922.webp",meta:{dc_title:"鹭",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"水鸟，白鹭",dc_type:"古籍物产条目"},desc:"头翅背有长羽毛，步于浅水",original:"鹭/尔雅鹭舂鉏注白鹭也头翅背上皆长羽毛陆玑诗疏曰白鹭步于浅水好自低昂故曰舂鉏"},
+    {name:"牛",category:"兽之属",alias:"无",origin:"恒春县山林川泽",usage:"耕作、畜养",img:"https://img.cdn1.vip/i/69fc897ca968c_1778157948.webp",meta:{dc_title:"牛",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"家畜，耕作用",dc_type:"古籍物产条目"},desc:"有黄牛、水牛，本地水牛居多",original:"牛/有黄牛水牛两种黄牛角短而有胡其色黄水牛角长而曲上其色或白或黑恒产水牛居多养牛家有数十百只至数百只者纵放山林川泽之间任其游息不加羁勒至有孳生者不觉"},
+    {name:"鹿",category:"兽之属",alias:"无",origin:"恒春县番山",usage:"药用、食用、贸易",img:"https://img.cdn1.vip/i/69fc897ecee29_1778157950.webp",meta:{dc_title:"鹿",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"野兽，药材来源",dc_type:"古籍物产条目"},desc:"出番山，取茸、皮、鞭、筋入市",original:"鹿/出番山番人恒捕之取鹿茸鹿皮鹿鞭鹿筋等入市换货肉则留以自啖"},
+    {name:"鲻",category:"鳞之属",alias:"乌鱼",origin:"恒春县江海浅水中",usage:"食用、腌制",img:"https://img.cdn1.vip/i/69fc89784fbbc_1778157944.webp",meta:{dc_title:"鲻",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"海鱼，土名乌鱼",dc_type:"古籍物产条目"},desc:"身圆头扁骨软，多子",original:"鲻/土名乌鱼本草云似鲤身圆头扁骨软生江海浅水中今于冬至前后数日盈千累万而来居民腌以作蜡此鱼多子与蒜同食下酒风味颇佳"},
+    {name:"鲤鱼",category:"鳞之属",alias:"无",origin:"恒春县龙銮潭",usage:"食用",img:"https://img.cdn1.vip/i/69fc8980aaf1e_1778157952.webp",meta:{dc_title:"鲤鱼",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"淡水鱼，鱼中之主",dc_type:"古籍物产条目"},desc:"脊中鳞一道，每鳞有小黑点",original:"鲤鱼/陶隐居曰鲤为鱼中之主酉阳杂俎云脊中鳞一道每鳞有小黑点大小皆三十六鳞南门龙銮潭最多有十余斤者"},
+    {name:"龟",category:"甲之属",alias:"无",origin:"恒春县",usage:"药用、食用",img:"https://img.cdn1.vip/i/69fc8987ca2e4_1778157959.webp",meta:{dc_title:"龟",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"甲类动物",dc_type:"古籍物产条目"},desc:"首常藏向腹，有甲壳",original:"龟/李时珍曰首常藏向腹能通任胍故甲可补心脣血皆以养阴也"},
+    {name:"鲮鲤",category:"甲之属",alias:"穿山甲、金甲、铁甲",origin:"恒春县",usage:"药用",img:"https://img.cdn1.vip/i/69fc898ac2ad8_1778157962.webp",meta:{dc_title:"鲮鲤",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"甲类动物，即穿山甲",dc_type:"古籍物产条目"},desc:"有黄黑二种，黄曰金甲，黑曰铁甲",original:"鲮鲤即穿山甲/有黄黑二种黄者曰金甲鲤鱼化黑者曰鐡甲鳢鱼化肉能去疯甲亦入药"},
+    {name:"地瓜酒",category:"饮食之属",alias:"无",origin:"恒春县",usage:"饮用",img:"https://img.cdn1.vip/i/69fc898dafadd_1778157965.webp",meta:{dc_title:"地瓜酒",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"酿造酒",dc_type:"古籍物产条目"},desc:"淡红色，以地瓜酿",original:"地瓜酒/淡红色以地瓜酿之"},
+    {name:"豆腐",category:"饮食之属",alias:"无",origin:"恒春县",usage:"食用",img:"https://img.cdn1.vip/i/69fc898f0677c_1778157967.webp",meta:{dc_title:"豆腐",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"豆制品",dc_type:"古籍物产条目"},desc:"乌豆白豆皆可磨，包裹成方块者为豆腐干",original:"豆腐/乌豆白豆皆可磨惟风大多飞尘肆中恐污不常有焉有以包裹成方块者稍坚实曰豆腐干"},
+    {name:"木炭",category:"日用之属",alias:"无",origin:"恒春县各地",usage:"燃料",img:"https://img.cdn1.vip/i/69fc89a9e7d29_1778157993.webp",meta:{dc_title:"木炭",dc_source:"《恒春县志·物产》",dc_date:"清·光绪18年(1892)",dc_creator:"佚名",dc_description:"日用燃料",dc_type:"古籍物产条目"},desc:"树木烧制，随处有炭藔",original:"木炭/随处设有炭藔番民滋事多由柴藔炭藔租税而起"}
+];
+
+        // ===================== 2. 完整189条实体数据 =====================
+        const entitiesData = [
+            // 物产主条目 PROD
+            {"entity": "稻", "type": "PROD", "context": "《恒春县志·物产》榖之属主条目"},
+            {"entity": "麦", "type": "PROD", "context": "《恒春县志·物产》榖之属主条目"},
+            {"entity": "豆", "type": "PROD", "context": "《恒春县志·物产》榖之属主条目"},
+            {"entity": "脂麻", "type": "PROD", "context": "《恒春县志·物产》榖之属主条目"},
+            {"entity": "芦菔", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "姜", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "葱", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "蒜", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "菘", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "芋", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "甘藷", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "薯蓣", "type": "PROD", "context": "《恒春县志·物产》蔬之属主条目"},
+            {"entity": "西瓜", "type": "PROD", "context": "《恒春县志·物产》瓜之属主条目"},
+            {"entity": "南瓜", "type": "PROD", "context": "《恒春县志·物产》瓜之属主条目"},
+            {"entity": "丝瓜", "type": "PROD", "context": "《恒春县志·物产》瓜之属主条目"},
+            {"entity": "凤棃", "type": "PROD", "context": "《恒春县志·物产》果之属主条目"},
+            {"entity": "槟榔", "type": "PROD", "context": "《恒春县志·物产》果之属主条目"},
+            {"entity": "龙眼", "type": "PROD", "context": "《恒春县志·物产》果之属主条目"},
+            {"entity": "椰子", "type": "PROD", "context": "《恒春县志·物产》果之属主条目"},
+            {"entity": "罗佛山茶", "type": "PROD", "context": "《恒春县志·物产》茶之属主条目"},
+            {"entity": "茯苓", "type": "PROD", "context": "《恒春县志·物产》药之属主条目"},
+            {"entity": "鸡血藤", "type": "PROD", "context": "《恒春县志·物产》药之属主条目"},
+            {"entity": "百合", "type": "PROD", "context": "《恒春县志·物产》药之属主条目"},
+            {"entity": "车前子", "type": "PROD", "context": "《恒春县志·物产》药之属主条目"},
+            {"entity": "芭蕉", "type": "PROD", "context": "《恒春县志·物产》草之属主条目"},
+            {"entity": "木棉", "type": "PROD", "context": "《恒春县志·物产》木之属主条目"},
+            {"entity": "鸡", "type": "PROD", "context": "《恒春县志·物产》禽之属主条目"},
+            {"entity": "鸭", "type": "PROD", "context": "《恒春县志·物产》禽之属主条目"},
+            {"entity": "鹭", "type": "PROD", "context": "《恒春县志·物产》禽之属主条目（白鹭）"},
+            {"entity": "牛", "type": "PROD", "context": "《恒春县志·物产》兽之属主条目"},
+            {"entity": "鹿", "type": "PROD", "context": "《恒春县志·物产》兽之属主条目"},
+            {"entity": "鲻", "type": "PROD", "context": "《恒春县志·物产》鳞之属主条目"},
+            {"entity": "鲤鱼", "type": "PROD", "context": "《恒春县志·物产》鳞之属主条目"},
+            {"entity": "龟", "type": "PROD", "context": "《恒春县志·物产》甲之属主条目"},
+            {"entity": "鲮鲤", "type": "PROD", "context": "《恒春县志·物产》甲之属主条目"},
+            {"entity": "地瓜酒", "type": "PROD", "context": "《恒春县志·物产》饮食之属主条目"},
+            {"entity": "豆腐", "type": "PROD", "context": "《恒春县志·物产》饮食之属主条目"},
+            {"entity": "木炭", "type": "PROD", "context": "《恒春县志·物产》日用之属主条目"},
+            // 别名 ALIAS
+            {"entity": "稬", "type": "ALIAS", "context": "稻的别名（黏者为稬）"},
+            {"entity": "秔", "type": "ALIAS", "context": "稻的别名（次黏者为秔）"},
+            {"entity": "稴", "type": "ALIAS", "context": "稻的别名（不黏者为稴）"},
+            {"entity": "籼", "type": "ALIAS", "context": "稻的别名（即稴）"},
+            {"entity": "稌", "type": "ALIAS", "context": "稻的别名"},
+            {"entity": "麰", "type": "ALIAS", "context": "麦的别名（大麦）"},
+            {"entity": "麳", "type": "ALIAS", "context": "麦的别名（小麦）"},
+            {"entity": "尗", "type": "ALIAS", "context": "豆的别名"},
+            {"entity": "荅", "type": "ALIAS", "context": "豆的别名（小豆）"},
+            {"entity": "菽", "type": "ALIAS", "context": "豆的别名（大豆）"},
+            {"entity": "荏菽", "type": "ALIAS", "context": "豆的别名（戎菽）"},
+            {"entity": "胡豆", "type": "ALIAS", "context": "豆的别名"},
+            {"entity": "芝麻", "type": "ALIAS", "context": "脂麻的别名（俗名）"},
+            {"entity": "胡麻", "type": "ALIAS", "context": "脂麻的别名"},
+            {"entity": "油麻", "type": "ALIAS", "context": "脂麻的别名"},
+            {"entity": "巨胜", "type": "ALIAS", "context": "脂麻的别名（湖州府志称）"},
+            {"entity": "莱菔", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "萝卜", "type": "ALIAS", "context": "芦菔的别名（俗名）"},
+            {"entity": "紫花菘", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "温菘", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "破地锥", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "夏生", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "土酥", "type": "ALIAS", "context": "芦菔的别名"},
+            {"entity": "紫芽姜", "type": "ALIAS", "context": "姜的别名（秋社后紫芽）"},
+            {"entity": "三保姜", "type": "ALIAS", "context": "姜的别名"},
+            {"entity": "菜伯", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "和事草", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "鹿胎", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "地葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "茖葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "冬葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "汉葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "山葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "胡葱", "type": "ALIAS", "context": "葱的别名"},
+            {"entity": "大蒜", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "小蒜", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "泽蒜", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "石蒜", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "葫", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "胡蒜", "type": "ALIAS", "context": "蒜的别名"},
+            {"entity": "牛肚菘", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "牛胫菘", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "白菜", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "水晶菜", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "青菘", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "青菜", "type": "ALIAS", "context": "菘的别名"},
+            {"entity": "蹲鸱", "type": "ALIAS", "context": "芋的别名"},
+            {"entity": "芋头", "type": "ALIAS", "context": "芋的别名"},
+            {"entity": "朱藷", "type": "ALIAS", "context": "甘藷的别名"},
+            {"entity": "玉枕藷", "type": "ALIAS", "context": "甘藷的别名"},
+            {"entity": "番藷", "type": "ALIAS", "context": "甘藷的别名"},
+            {"entity": "山藷", "type": "ALIAS", "context": "甘藷的别名"},
+            {"entity": "地瓜", "type": "ALIAS", "context": "甘藷的别名（俗名）"},
+            {"entity": "山药", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "藷藇", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "山芋", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "藷薯", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "儿草", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "土藷", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "玉延", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "修脆", "type": "ALIAS", "context": "薯蓣的别名"},
+            {"entity": "寒瓜", "type": "ALIAS", "context": "西瓜的别名（本草称）"},
+            {"entity": "番瓜", "type": "ALIAS", "context": "南瓜的别名"},
+            {"entity": "倭瓜", "type": "ALIAS", "context": "南瓜的别名"},
+            {"entity": "飰瓜", "type": "ALIAS", "context": "南瓜的别名"},
+            {"entity": "阴瓜", "type": "ALIAS", "context": "南瓜的别名"},
+            {"entity": "洗锅罗瓜", "type": "ALIAS", "context": "丝瓜的别名"},
+            {"entity": "天罗絮", "type": "ALIAS", "context": "丝瓜的别名"},
+            {"entity": "黄棃", "type": "ALIAS", "context": "凤棃的别名"},
+            {"entity": "仁频", "type": "ALIAS", "context": "槟榔的别名"},
+            {"entity": "荔枝奴", "type": "ALIAS", "context": "龙眼的别名"},
+            {"entity": "越王头", "type": "ALIAS", "context": "椰子的别名"},
+            {"entity": "茯神", "type": "ALIAS", "context": "茯苓的别名"},
+            {"entity": "茯灵", "type": "ALIAS", "context": "茯苓的别名"},
+            {"entity": "茯兔", "type": "ALIAS", "context": "茯苓的别名"},
+            {"entity": "重箱", "type": "ALIAS", "context": "百合的别名"},
+            {"entity": "中逢花", "type": "ALIAS", "context": "百合的别名"},
+            {"entity": "重迈", "type": "ALIAS", "context": "百合的别名"},
+            {"entity": "中庭", "type": "ALIAS", "context": "百合的别名"},
+            {"entity": "摩罗春", "type": "ALIAS", "context": "百合的别名"},
+            {"entity": "芣苢", "type": "ALIAS", "context": "车前子的别名"},
+            {"entity": "马舄", "type": "ALIAS", "context": "车前子的别名"},
+            {"entity": "车前", "type": "ALIAS", "context": "车前子的别名"},
+            {"entity": "当道", "type": "ALIAS", "context": "车前子的别名"},
+            {"entity": "虾蟇衣", "type": "ALIAS", "context": "车前子的别名"},
+            {"entity": "芭苴", "type": "ALIAS", "context": "芭蕉的别名"},
+            {"entity": "天苴", "type": "ALIAS", "context": "芭蕉的别名"},
+            {"entity": "扇仙", "type": "ALIAS", "context": "芭蕉的别名"},
+            {"entity": "凫", "type": "ALIAS", "context": "鸭的别名（野鸭）"},
+            {"entity": "鹜", "type": "ALIAS", "context": "鸭的别名（家鸭）"},
+            {"entity": "舂鉏", "type": "ALIAS", "context": "鹭的别名（尔雅称）"},
+            {"entity": "乌鱼", "type": "ALIAS", "context": "鲻的别名（土名）"},
+            {"entity": "穿山甲", "type": "ALIAS", "context": "鲮鲤的别名"},
+            {"entity": "斑龙", "type": "ALIAS", "context": "鹿的别名（仙兽称）"},
+            // 物产分类 CATEGORY
+            {"entity": "榖之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "蔬之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "瓜之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "果之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "茶之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "药之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "草之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "木之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "禽之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "兽之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "鳞之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "甲之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "饮食之属", "type": "CATEGORY", "context": "物产一级分类"},
+            {"entity": "日用之属", "type": "CATEGORY", "context": "物产一级分类"},
+            // 引用典籍 BOOK
+            {"entity": "《本草》", "type": "BOOK", "context": "引用典籍（泛称，含《本草经》《本草纲目》）"},
+            {"entity": "《说文》", "type": "BOOK", "context": "引用典籍（许慎《说文解字》）"},
+            {"entity": "《九榖攷》", "type": "BOOK", "context": "引用典籍（稻相关）"},
+            {"entity": "《广雅》", "type": "BOOK", "context": "引用典籍（麦、豆相关）"},
+            {"entity": "《周官》", "type": "BOOK", "context": "引用典籍（麦相关）"},
+            {"entity": "《汜胜之书》", "type": "BOOK", "context": "引用典籍（麦相关）"},
+            {"entity": "《酉阳杂俎》", "type": "BOOK", "context": "引用典籍（麦、鲤鱼相关）"},
+            {"entity": "《农桑辑要》", "type": "BOOK", "context": "引用典籍（麦相关）"},
+            {"entity": "《尔雅》", "type": "BOOK", "context": "引用典籍（豆、鹭、车前子相关）"},
+            {"entity": "《王祯农书》", "type": "BOOK", "context": "引用典籍（豆、芋、南瓜相关）"},
+            {"entity": "《湖雅》", "type": "BOOK", "context": "引用典籍（豆、菘、丝瓜、脂麻相关）"},
+            {"entity": "《榖谱》", "type": "BOOK", "context": "引用典籍（脂麻相关）"},
+            {"entity": "《湖州府志》", "type": "BOOK", "context": "引用典籍（脂麻相关）"},
+            {"entity": "《本草纲目》", "type": "BOOK", "context": "引用典籍（芦菔、芋、南瓜、丝瓜、龟相关）"},
+            {"entity": "《蔬谱》", "type": "BOOK", "context": "引用典籍（姜、葱、蒜、丝瓜相关）"},
+            {"entity": "《本草经》", "type": "BOOK", "context": "引用典籍（姜相关）"},
+            {"entity": "《群芳谱》", "type": "BOOK", "context": "引用典籍（葱、甘藷、薯蓣、芭蕉、百合相关）"},
+            {"entity": "《楞严经》", "type": "BOOK", "context": "引用典籍（葱相关）"},
+            {"entity": "《夏小正》", "type": "BOOK", "context": "引用典籍（蒜相关）"},
+            {"entity": "《尔雅翼》", "type": "BOOK", "context": "引用典籍（蒜、百合相关）"},
+            {"entity": "《菜谱》", "type": "BOOK", "context": "引用典籍（菘相关）"},
+            {"entity": "《史记》", "type": "BOOK", "context": "引用典籍（芋相关）"},
+            {"entity": "《甘藷疏》", "type": "BOOK", "context": "引用典籍（甘藷相关）"},
+            {"entity": "《异物志》", "type": "BOOK", "context": "引用典籍（甘藷相关）"},
+            {"entity": "《湖录》", "type": "BOOK", "context": "引用典籍（薯蓣、南瓜相关）"},
+            {"entity": "《南方草木状》", "type": "BOOK", "context": "引用典籍（槟榔、椰子、龙眼相关）"},
+            {"entity": "《仙药录》", "type": "BOOK", "context": "引用典籍（槟榔相关）"},
+            {"entity": "《本草图经》", "type": "BOOK", "context": "引用典籍（槟榔相关）"},
+            // 历史人物 PER
+            {"entity": "李时珍", "type": "PER", "context": "《本草纲目》作者，脂麻、芋、西瓜、龟相关"},
+            {"entity": "许慎", "type": "PER", "context": "《说文》作者，稻、姜、豆相关"},
+            {"entity": "郑众", "type": "PER", "context": "《周官》注者，麦相关"},
+            {"entity": "孙炎", "type": "PER", "context": "《尔雅》注者，豆相关"},
+            {"entity": "王祯", "type": "PER", "context": "《王祯农书》作者，豆相关"},
+            {"entity": "陶贞白", "type": "PER", "context": "蒜相关引述人物"},
+            {"entity": "杨诚斋", "type": "PER", "context": "菘相关引述人物"},
+            {"entity": "寇宗奭", "type": "PER", "context": "芋相关引述人物"},
+            {"entity": "唐太宗", "type": "PER", "context": "薯蓣避讳相关历史人物"},
+            {"entity": "宋英宗", "type": "PER", "context": "薯蓣避讳相关历史人物"},
+            {"entity": "胡峤", "type": "PER", "context": "西瓜相关引述人物"},
+            {"entity": "陶宏景", "type": "PER", "context": "西瓜相关引述人物"},
+            {"entity": "魏文帝", "type": "PER", "context": "龙眼相关引述人物"},
+            {"entity": "林邑王", "type": "PER", "context": "椰子相关引述人物"},
+            {"entity": "越王", "type": "PER", "context": "椰子相关引述人物"},
+            {"entity": "周有基", "type": "PER", "context": "罗佛山茶种植推动者"},
+            {"entity": "朱二", "type": "PER", "context": "百合相关引述人物"},
+            {"entity": "陆玑", "type": "PER", "context": "《尔雅》注者，车前子、鹭相关"},
+            {"entity": "罗建祥", "type": "PER", "context": "木棉种植推动者"},
+            {"entity": "陶隐居", "type": "PER", "context": "鲤鱼相关引述人物"},
+            // 产地 LOC
+            {"entity": "恒春县", "type": "LOC", "context": "核心产地，多数物产主产地"},
+            {"entity": "凤山县冈山", "type": "LOC", "context": "姜的产地之一"},
+            {"entity": "罗佛山", "type": "LOC", "context": "罗佛山茶的产地（县城东北三十里）"},
+            {"entity": "恒春县后山", "type": "LOC", "context": "茯苓、鹿的产地"},
+            {"entity": "恒春县番社", "type": "LOC", "context": "槟榔、鸡血藤的产地"},
+            {"entity": "恒春县署二堂前", "type": "LOC", "context": "龙眼树所在地（恒春县衙内）"},
+            {"entity": "龙銮潭", "type": "LOC", "context": "鲤鱼、鸭的产地（恒春南门附近）"},
+            {"entity": "大嵙崁", "type": "LOC", "context": "鸡血藤熬膏地点（台北附近，药肆集中地）"},
+            {"entity": "云南", "type": "LOC", "context": "鸡血藤产地"},
+            {"entity": "台北", "type": "LOC", "context": "鸡血藤产地"},
+            {"entity": "粤东", "type": "LOC", "context": "木棉种子来源地"},
+            // 用途 USAGE
+            {"entity": "主食食用", "type": "USAGE", "context": "稻的用途"},
+            {"entity": "酿酒、制粉、做面食、酱、糕饼", "type": "USAGE", "context": "麦的用途"},
+            {"entity": "食用", "type": "USAGE", "context": "多数物产的核心用途"},
+            {"entity": "榨油", "type": "USAGE", "context": "脂麻的用途"},
+            {"entity": "生熟食用、腌制、调味", "type": "USAGE", "context": "芦菔的用途"},
+            {"entity": "食用调味、药用", "type": "USAGE", "context": "姜、葱、蒜的用途"},
+            {"entity": "代粮、制丝、制粉", "type": "USAGE", "context": "甘藷的用途"},
+            {"entity": "食用、入馔、药用", "type": "USAGE", "context": "薯蓣的用途"},
+            {"entity": "代粮、食用、子可食", "type": "USAGE", "context": "南瓜的用途"},
+            {"entity": "食用、涤器、药用", "type": "USAGE", "context": "丝瓜的用途"},
+            {"entity": "饮用", "type": "USAGE", "context": "罗佛山茶、地瓜酒的用途"},
+            {"entity": "食用、礼仪待客", "type": "USAGE", "context": "槟榔的用途"},
+            {"entity": "食用、酿酒", "type": "USAGE", "context": "椰子的用途"},
+            {"entity": "药用", "type": "USAGE", "context": "药类物产核心用途"},
+            {"entity": "药用、熬膏", "type": "USAGE", "context": "鸡血藤的用途"},
+            {"entity": "食用、药用润肺", "type": "USAGE", "context": "百合的用途"},
+            {"entity": "观赏、食用花苞甘露", "type": "USAGE", "context": "芭蕉的用途"},
+            {"entity": "产棉", "type": "USAGE", "context": "木棉的用途"},
+            {"entity": "食用、蓄养", "type": "USAGE", "context": "鸡、牛的用途"},
+            {"entity": "观赏", "type": "USAGE", "context": "鹭的用途"},
+            {"entity": "耕作、畜养", "type": "USAGE", "context": "牛的用途"},
+            {"entity": "药用、食用、贸易", "type": "USAGE", "context": "鹿的用途"},
+            {"entity": "食用、腌制", "type": "USAGE", "context": "鲻的用途"},
+            {"entity": "药用、食用", "type": "USAGE", "context": "龟的用途"},
+            {"entity": "燃料", "type": "USAGE", "context": "木炭的用途"}
+        ];
+
+        // ===================== 3. 完整345条关系三元组 =====================
+        const relationsData = [
+            // 分类归属关系
+            {source: "稻", target: "榖之属", value: "belongsTo"},
+            {source: "麦", target: "榖之属", value: "belongsTo"},
+            {source: "豆", target: "榖之属", value: "belongsTo"},
+            {source: "脂麻", target: "榖之属", value: "belongsTo"},
+            {source: "芦菔", target: "蔬之属", value: "belongsTo"},
+            {source: "姜", target: "蔬之属", value: "belongsTo"},
+            {source: "葱", target: "蔬之属", value: "belongsTo"},
+            {source: "蒜", target: "蔬之属", value: "belongsTo"},
+            {source: "菘", target: "蔬之属", value: "belongsTo"},
+            {source: "芋", target: "蔬之属", value: "belongsTo"},
+            {source: "甘藷", target: "蔬之属", value: "belongsTo"},
+            {source: "薯蓣", target: "蔬之属", value: "belongsTo"},
+            {source: "西瓜", target: "瓜之属", value: "belongsTo"},
+            {source: "南瓜", target: "瓜之属", value: "belongsTo"},
+            {source: "丝瓜", target: "瓜之属", value: "belongsTo"},
+            {source: "凤棃", target: "果之属", value: "belongsTo"},
+            {source: "槟榔", target: "果之属", value: "belongsTo"},
+            {source: "龙眼", target: "果之属", value: "belongsTo"},
+            {source: "椰子", target: "果之属", value: "belongsTo"},
+            {source: "罗佛山茶", target: "茶之属", value: "belongsTo"},
+            {source: "茯苓", target: "药之属", value: "belongsTo"},
+            {source: "鸡血藤", target: "药之属", value: "belongsTo"},
+            {source: "百合", target: "药之属", value: "belongsTo"},
+            {source: "车前子", target: "药之属", value: "belongsTo"},
+            {source: "芭蕉", target: "草之属", value: "belongsTo"},
+            {source: "木棉", target: "木之属", value: "belongsTo"},
+            {source: "鸡", target: "禽之属", value: "belongsTo"},
+            {source: "鸭", target: "禽之属", value: "belongsTo"},
+            {source: "鹭", target: "禽之属", value: "belongsTo"},
+            {source: "牛", target: "兽之属", value: "belongsTo"},
+            {source: "鹿", target: "兽之属", value: "belongsTo"},
+            {source: "鲻", target: "鳞之属", value: "belongsTo"},
+            {source: "鲤鱼", target: "鳞之属", value: "belongsTo"},
+            {source: "龟", target: "甲之属", value: "belongsTo"},
+            {source: "鲮鲤", target: "甲之属", value: "belongsTo"},
+            {source: "地瓜酒", target: "饮食之属", value: "belongsTo"},
+            {source: "豆腐", target: "饮食之属", value: "belongsTo"},
+            {source: "木炭", target: "日用之属", value: "belongsTo"},
+            // 别名关系
+            {source: "稻", target: "稬", value: "aliasOf"},
+            {source: "稻", target: "秔", value: "aliasOf"},
+            {source: "稻", target: "稴", value: "aliasOf"},
+            {source: "稻", target: "籼", value: "aliasOf"},
+            {source: "稻", target: "稌", value: "aliasOf"},
+            {source: "麦", target: "麰", value: "aliasOf"},
+            {source: "麦", target: "麳", value: "aliasOf"},
+            {source: "豆", target: "尗", value: "aliasOf"},
+            {source: "豆", target: "荅", value: "aliasOf"},
+            {source: "豆", target: "菽", value: "aliasOf"},
+            {source: "豆", target: "荏菽", value: "aliasOf"},
+            {source: "豆", target: "胡豆", value: "aliasOf"},
+            {source: "脂麻", target: "胡麻", value: "aliasOf"},
+            {source: "脂麻", target: "油麻", value: "aliasOf"},
+            {source: "脂麻", target: "巨胜", value: "aliasOf"},
+            {source: "脂麻", target: "芝麻", value: "aliasOf"},
+            {source: "芦菔", target: "莱菔", value: "aliasOf"},
+            {source: "芦菔", target: "萝卜", value: "aliasOf"},
+            {source: "芦菔", target: "紫花菘", value: "aliasOf"},
+            {source: "芦菔", target: "温菘", value: "aliasOf"},
+            {source: "芦菔", target: "破地锥", value: "aliasOf"},
+            {source: "芦菔", target: "夏生", value: "aliasOf"},
+            {source: "芦菔", target: "土酥", value: "aliasOf"},
+            {source: "姜", target: "紫芽姜", value: "aliasOf"},
+            {source: "姜", target: "三保姜", value: "aliasOf"},
+            {source: "葱", target: "菜伯", value: "aliasOf"},
+            {source: "葱", target: "和事草", value: "aliasOf"},
+            {source: "葱", target: "鹿胎", value: "aliasOf"},
+            {source: "葱", target: "地葱", value: "aliasOf"},
+            {source: "葱", target: "茖葱", value: "aliasOf"},
+            {source: "葱", target: "冬葱", value: "aliasOf"},
+            {source: "葱", target: "汉葱", value: "aliasOf"},
+            {source: "葱", target: "山葱", value: "aliasOf"},
+            {source: "葱", target: "胡葱", value: "aliasOf"},
+            {source: "蒜", target: "葫", value: "aliasOf"},
+            {source: "蒜", target: "胡蒜", value: "aliasOf"},
+            {source: "蒜", target: "泽蒜", value: "aliasOf"},
+            {source: "蒜", target: "石蒜", value: "aliasOf"},
+            {source: "蒜", target: "大蒜", value: "aliasOf"},
+            {source: "蒜", target: "小蒜", value: "aliasOf"},
+            {source: "菘", target: "白菜", value: "aliasOf"},
+            {source: "菘", target: "水晶菜", value: "aliasOf"},
+            {source: "菘", target: "牛肚菘", value: "aliasOf"},
+            {source: "菘", target: "牛胫菘", value: "aliasOf"},
+            {source: "菘", target: "青菘", value: "aliasOf"},
+            {source: "菘", target: "青菜", value: "aliasOf"},
+            {source: "芋", target: "蹲鸱", value: "aliasOf"},
+            {source: "芋", target: "芋头", value: "aliasOf"},
+            {source: "甘藷", target: "朱藷", value: "aliasOf"},
+            {source: "甘藷", target: "玉枕藷", value: "aliasOf"},
+            {source: "甘藷", target: "番藷", value: "aliasOf"},
+            {source: "甘藷", target: "山藷", value: "aliasOf"},
+            {source: "甘藷", target: "地瓜", value: "aliasOf"},
+            {source: "薯蓣", target: "山药", value: "aliasOf"},
+            {source: "薯蓣", target: "藷藇", value: "aliasOf"},
+            {source: "薯蓣", target: "山芋", value: "aliasOf"},
+            {source: "薯蓣", target: "藷薯", value: "aliasOf"},
+            {source: "薯蓣", target: "儿草", value: "aliasOf"},
+            {source: "薯蓣", target: "土藷", value: "aliasOf"},
+            {source: "薯蓣", target: "玉延", value: "aliasOf"},
+            {source: "薯蓣", target: "修脆", value: "aliasOf"},
+            {source: "西瓜", target: "寒瓜", value: "aliasOf"},
+            {source: "南瓜", target: "番瓜", value: "aliasOf"},
+            {source: "南瓜", target: "倭瓜", value: "aliasOf"},
+            {source: "南瓜", target: "飰瓜", value: "aliasOf"},
+            {source: "南瓜", target: "阴瓜", value: "aliasOf"},
+            {source: "丝瓜", target: "洗锅罗瓜", value: "aliasOf"},
+            {source: "丝瓜", target: "天罗絮", value: "aliasOf"},
+            {source: "凤棃", target: "黄棃", value: "aliasOf"},
+            {source: "槟榔", target: "仁频", value: "aliasOf"},
+            {source: "龙眼", target: "荔枝奴", value: "aliasOf"},
+            {source: "椰子", target: "越王头", value: "aliasOf"},
+            {source: "茯苓", target: "茯神", value: "aliasOf"},
+            {source: "茯苓", target: "茯灵", value: "aliasOf"},
+            {source: "茯苓", target: "茯兔", value: "aliasOf"},
+            {source: "百合", target: "重箱", value: "aliasOf"},
+            {source: "百合", target: "中逢花", value: "aliasOf"},
+            {source: "百合", target: "重迈", value: "aliasOf"},
+            {source: "百合", target: "中庭", value: "aliasOf"},
+            {source: "百合", target: "摩罗春", value: "aliasOf"},
+            {source: "车前子", target: "芣苢", value: "aliasOf"},
+            {source: "车前子", target: "马舄", value: "aliasOf"},
+            {source: "车前子", target: "车前", value: "aliasOf"},
+            {source: "车前子", target: "当道", value: "aliasOf"},
+            {source: "车前子", target: "虾蟇衣", value: "aliasOf"},
+            {source: "芭蕉", target: "芭苴", value: "aliasOf"},
+            {source: "芭蕉", target: "天苴", value: "aliasOf"},
+            {source: "芭蕉", target: "扇仙", value: "aliasOf"},
+            {source: "鸭", target: "凫", value: "aliasOf"},
+            {source: "鸭", target: "鹜", value: "aliasOf"},
+            {source: "鹭", target: "舂鉏", value: "aliasOf"},
+            {source: "鲻", target: "乌鱼", value: "aliasOf"},
+            {source: "鲮鲤", target: "穿山甲", value: "aliasOf"},
+            {source: "鹿", target: "斑龙", value: "aliasOf"},
+            // 典籍引用关系
+            {source: "稻", target: "《本草》", value: "mentionedIn"},
+            {source: "稻", target: "《说文》", value: "mentionedIn"},
+            {source: "稻", target: "《九榖攷》", value: "mentionedIn"},
+            {source: "麦", target: "《广雅》", value: "mentionedIn"},
+            {source: "麦", target: "《周官》", value: "mentionedIn"},
+            {source: "麦", target: "《汜胜之书》", value: "mentionedIn"},
+            {source: "麦", target: "《酉阳杂俎》", value: "mentionedIn"},
+            {source: "麦", target: "《农桑辑要》", value: "mentionedIn"},
+            {source: "豆", target: "《说文》", value: "mentionedIn"},
+            {source: "豆", target: "《广雅》", value: "mentionedIn"},
+            {source: "豆", target: "《尔雅》", value: "mentionedIn"},
+            {source: "豆", target: "《王祯农书》", value: "mentionedIn"},
+            {source: "豆", target: "《湖雅》", value: "mentionedIn"},
+            {source: "脂麻", target: "《本草》", value: "mentionedIn"},
+            {source: "脂麻", target: "《榖谱》", value: "mentionedIn"},
+            {source: "脂麻", target: "《湖州府志》", value: "mentionedIn"},
+            {source: "脂麻", target: "《湖雅》", value: "mentionedIn"},
+            {source: "芦菔", target: "《本草纲目》", value: "mentionedIn"},
+            {source: "芦菔", target: "《王祯农书》", value: "mentionedIn"},
+            {source: "姜", target: "《说文》", value: "mentionedIn"},
+            {source: "姜", target: "《蔬谱》", value: "mentionedIn"},
+            {source: "姜", target: "《本草经》", value: "mentionedIn"},
+            {source: "葱", target: "《群芳谱》", value: "mentionedIn"},
+            {source: "葱", target: "《本草》", value: "mentionedIn"},
+            {source: "葱", target: "《蔬谱》", value: "mentionedIn"},
+            {source: "葱", target: "《楞严经》", value: "mentionedIn"},
+            {source: "蒜", target: "《说文》", value: "mentionedIn"},
+            {source: "蒜", target: "《夏小正》", value: "mentionedIn"},
+            {source: "蒜", target: "《尔雅翼》", value: "mentionedIn"},
+            {source: "蒜", target: "《蔬谱》", value: "mentionedIn"},
+            {source: "菘", target: "《菜谱》", value: "mentionedIn"},
+            {source: "菘", target: "《本草》", value: "mentionedIn"},
+            {source: "菘", target: "《湖雅》", value: "mentionedIn"},
+            {source: "芋", target: "《说文》", value: "mentionedIn"},
+            {source: "芋", target: "《史记》", value: "mentionedIn"},
+            {source: "芋", target: "《本草纲目》", value: "mentionedIn"},
+            {source: "甘藷", target: "《群芳谱》", value: "mentionedIn"},
+            {source: "甘藷", target: "《甘藷疏》", value: "mentionedIn"},
+            {source: "甘藷", target: "《异物志》", value: "mentionedIn"},
+            {source: "薯蓣", target: "《本草》", value: "mentionedIn"},
+            {source: "薯蓣", target: "《群芳谱》", value: "mentionedIn"},
+            {source: "薯蓣", target: "《湖录》", value: "mentionedIn"},
+            {source: "西瓜", target: "《本草》", value: "mentionedIn"},
+            {source: "南瓜", target: "《湖录》", value: "mentionedIn"},
+            {source: "南瓜", target: "《王祯农书》", value: "mentionedIn"},
+            {source: "南瓜", target: "《本草纲目》", value: "mentionedIn"},
+            {source: "丝瓜", target: "《本草纲目》", value: "mentionedIn"},
+            {source: "丝瓜", target: "《蔬谱》", value: "mentionedIn"},
+            {source: "丝瓜", target: "《湖雅》", value: "mentionedIn"},
+            {source: "槟榔", target: "《南方草木状》", value: "mentionedIn"},
+            {source: "槟榔", target: "《仙药录》", value: "mentionedIn"},
+            {source: "槟榔", target: "《本草图经》", value: "mentionedIn"},
+            {source: "龙眼", target: "《南方草木状》", value: "mentionedIn"},
+            {source: "椰子", target: "《南方草木状》", value: "mentionedIn"},
+            {source: "茯苓", target: "《本草》", value: "mentionedIn"},
+            {source: "茯苓", target: "《鄞县志》", value: "mentionedIn"},
+            {source: "茯神", target: "《本草》", value: "mentionedIn"},
+            {source: "百合", target: "《本草》", value: "mentionedIn"},
+            {source: "百合", target: "《群芳谱》", value: "mentionedIn"},
+            {source: "百合", target: "《尔雅翼》", value: "mentionedIn"},
+            {source: "车前子", target: "《尔雅》", value: "mentionedIn"},
+            {source: "芭蕉", target: "《群芳谱》", value: "mentionedIn"},
+            {source: "鲤鱼", target: "《酉阳杂俎》", value: "mentionedIn"},
+            {source: "龟", target: "《本草纲目》", value: "mentionedIn"},
+            // 人物引述关系
+            {source: "麦", target: "郑众", value: "citedFrom"},
+            {source: "豆", target: "孙炎", value: "citedFrom"},
+            {source: "豆", target: "王祯", value: "citedFrom"},
+            {source: "脂麻", target: "李时珍", value: "citedFrom"},
+            {source: "蒜", target: "陶贞白", value: "citedFrom"},
+            {source: "菘", target: "杨诚斋", value: "citedFrom"},
+            {source: "芋", target: "寇宗奭", value: "citedFrom"},
+            {source: "芋", target: "李时珍", value: "citedFrom"},
+            {source: "薯蓣", target: "唐太宗", value: "citedFrom"},
+            {source: "薯蓣", target: "宋英宗", value: "citedFrom"},
+            {source: "西瓜", target: "李时珍", value: "citedFrom"},
+            {source: "西瓜", target: "胡峤", value: "citedFrom"},
+            {source: "西瓜", target: "陶宏景", value: "citedFrom"},
+            {source: "龙眼", target: "魏文帝", value: "citedFrom"},
+            {source: "椰子", target: "林邑王", value: "citedFrom"},
+            {source: "椰子", target: "越王", value: "citedFrom"},
+            {source: "罗佛山茶", target: "周有基", value: "citedFrom"},
+            {source: "百合", target: "朱二", value: "citedFrom"},
+            {source: "车前子", target: "陆玑", value: "citedFrom"},
+            {source: "鹭", target: "陆玑", value: "citedFrom"},
+            {source: "木棉", target: "罗建祥", value: "citedFrom"},
+            {source: "鲤鱼", target: "陶隐居", value: "citedFrom"},
+            {source: "龟", target: "李时珍", value: "citedFrom"},
+            {source: "许慎", target: "《说文》", value: "authorOf"},
+            {source: "李时珍", target: "《本草纲目》", value: "authorOf"},
+            {source: "王祯", target: "《王祯农书》", value: "authorOf"},
+            // 产地关系
+            {source: "稻", target: "恒春县", value: "producedIn"},
+            {source: "麦", target: "恒春县", value: "producedIn"},
+            {source: "豆", target: "恒春县", value: "producedIn"},
+            {source: "脂麻", target: "恒春县", value: "producedIn"},
+            {source: "芦菔", target: "恒春县", value: "producedIn"},
+            {source: "姜", target: "恒春县", value: "producedIn"},
+            {source: "姜", target: "凤山县冈山", value: "producedIn"},
+            {source: "葱", target: "恒春县", value: "producedIn"},
+            {source: "蒜", target: "恒春县", value: "producedIn"},
+            {source: "菘", target: "恒春县", value: "producedIn"},
+            {source: "芋", target: "恒春县", value: "producedIn"},
+            {source: "甘藷", target: "恒春县", value: "producedIn"},
+            {source: "薯蓣", target: "恒春县", value: "producedIn"},
+            {source: "西瓜", target: "恒春县", value: "producedIn"},
+            {source: "南瓜", target: "恒春县", value: "producedIn"},
+            {source: "丝瓜", target: "恒春县", value: "producedIn"},
+            {source: "凤棃", target: "恒春县", value: "producedIn"},
+            {source: "槟榔", target: "恒春县番社", value: "producedIn"},
+            {source: "龙眼", target: "恒春县署二堂前", value: "producedIn"},
+            {source: "椰子", target: "恒春县", value: "producedIn"},
+            {source: "罗佛山茶", target: "罗佛山", value: "producedIn"},
+            {source: "茯苓", target: "恒春县后山", value: "producedIn"},
+            {source: "鸡血藤", target: "恒春县番社", value: "producedIn"},
+            {source: "鸡血藤", target: "云南", value: "producedIn"},
+            {source: "鸡血藤", target: "台北", value: "producedIn"},
+            {source: "鸡血藤", target: "大嵙崁", value: "producedIn"},
+            {source: "百合", target: "恒春县", value: "producedIn"},
+            {source: "车前子", target: "恒春县", value: "producedIn"},
+            {source: "芭蕉", target: "恒春县", value: "producedIn"},
+            {source: "木棉", target: "恒春县", value: "producedIn"},
+            {source: "木棉", target: "粤东", value: "producedIn"},
+            {source: "鸡", target: "恒春县", value: "producedIn"},
+            {source: "鸭", target: "恒春县", value: "producedIn"},
+            {source: "鸭", target: "龙銮潭", value: "producedIn"},
+            {source: "鹭", target: "恒春县", value: "producedIn"},
+            {source: "牛", target: "恒春县", value: "producedIn"},
+            {source: "鹿", target: "恒春县后山", value: "producedIn"},
+            {source: "鲻", target: "恒春县", value: "producedIn"},
+            {source: "鲤鱼", target: "龙銮潭", value: "producedIn"},
+            {source: "龟", target: "恒春县", value: "producedIn"},
+            {source: "鲮鲤", target: "恒春县", value: "producedIn"},
+            {source: "地瓜酒", target: "恒春县", value: "producedIn"},
+            {source: "豆腐", target: "恒春县", value: "producedIn"},
+            {source: "木炭", target: "恒春县", value: "producedIn"},
+            // 用途关系
+            {source: "稻", target: "主食食用", value: "hasUsage"},
+            {source: "麦", target: "酿酒、制粉、做面食、酱、糕饼", value: "hasUsage"},
+            {source: "豆", target: "食用", value: "hasUsage"},
+            {source: "脂麻", target: "榨油", value: "hasUsage"},
+            {source: "芦菔", target: "生熟食用、腌制、调味", value: "hasUsage"},
+            {source: "姜", target: "食用调味、药用", value: "hasUsage"},
+            {source: "葱", target: "食用调味、药用", value: "hasUsage"},
+            {source: "蒜", target: "食用、腌制、药用", value: "hasUsage"},
+            {source: "菘", target: "食用", value: "hasUsage"},
+            {source: "芋", target: "食用", value: "hasUsage"},
+            {source: "甘藷", target: "代粮、制丝、制粉", value: "hasUsage"},
+            {source: "薯蓣", target: "食用、入馔、药用", value: "hasUsage"},
+            {source: "西瓜", target: "食用", value: "hasUsage"},
+            {source: "南瓜", target: "代粮、食用、子可食", value: "hasUsage"},
+            {source: "丝瓜", target: "食用、涤器、药用", value: "hasUsage"},
+            {source: "凤棃", target: "食用", value: "hasUsage"},
+            {source: "槟榔", target: "食用、礼仪待客", value: "hasUsage"},
+            {source: "龙眼", target: "食用", value: "hasUsage"},
+            {source: "椰子", target: "食用、酿酒", value: "hasUsage"},
+            {source: "罗佛山茶", target: "饮用", value: "hasUsage"},
+            {source: "茯苓", target: "药用", value: "hasUsage"},
+            {source: "鸡血藤", target: "药用、熬膏", value: "hasUsage"},
+            {source: "百合", target: "食用、药用润肺", value: "hasUsage"},
+            {source: "车前子", target: "药用", value: "hasUsage"},
+            {source: "芭蕉", target: "观赏、食用花苞甘露", value: "hasUsage"},
+            {source: "木棉", target: "产棉", value: "hasUsage"},
+            {source: "鸡", target: "食用、蓄养", value: "hasUsage"},
+            {source: "鸭", target: "食用", value: "hasUsage"},
+            {source: "鹭", target: "观赏", value: "hasUsage"},
+            {source: "牛", target: "耕作、畜养", value: "hasUsage"},
+            {source: "鹿", target: "药用、食用、贸易", value: "hasUsage"},
+            {source: "鲻", target: "食用、腌制", value: "hasUsage"},
+            {source: "鲤鱼", target: "食用", value: "hasUsage"},
+            {source: "龟", target: "药用、食用", value: "hasUsage"},
+            {source: "鲮鲤", target: "药用", value: "hasUsage"},
+            {source: "地瓜酒", target: "饮用", value: "hasUsage"},
+            {source: "豆腐", target: "食用", value: "hasUsage"},
+            {source: "木炭", target: "燃料", value: "hasUsage"}
+        ];
+
+        // ===================== 4. 实体类型配色规范 =====================
+        const entityCategories = [
+            {name: "PROD", itemStyle: {color: "#1a3d2f"}},
+            {name: "ALIAS", itemStyle: {color: "#5a927b"}},
+            {name: "CATEGORY", itemStyle: {color: "#888888"}},
+            {name: "BOOK", itemStyle: {color: "#d4af37"}},
+            {name: "PER", itemStyle: {color: "#8b5a2b"}},
+            {name: "LOC", itemStyle: {color: "#2b6cb0"}},
+            {name: "USAGE", itemStyle: {color: "#9f7aea"}},
+            {name: "MORPH", itemStyle: {color: "#38b2ac"}},
+            {name: "DISTRIBUTE", itemStyle: {color: "#ed8936"}},
+            {name: "GROWSTIME", itemStyle: {color: "#f56565"}}
+        ];
+
+// ===================== 5. 全局变量 =====================
+let currentCategory = 'all';
+let myChart;
+
+// 👇 新增：关键词高亮工具函数（全局通用）
+function highlightText(text, keyword) {
+    if (!keyword || !text) return text;
+    const reg = new RegExp(`(${keyword})`, 'gi');
+    return text.replace(reg, '<span style="color:#d4af37; font-weight:bold;">$1</span>');
+}
+        // ===================== 6. 导航栏切换功能 =====================
+        function showSection(section) {
+            // 更新导航栏状态
+            document.querySelectorAll('.nav-menu a').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 隐藏所有区块
+            document.getElementById('home-section').style.display = 'none';
+            document.getElementById('answer-section').classList.remove('active');
+            document.getElementById('list-section').classList.remove('active');
+            document.getElementById('detail-section').classList.remove('active');
+            document.getElementById('graph-section').classList.remove('active');
+            document.getElementById('ai-section').classList.remove('active');
+            document.getElementById('about-section').classList.remove('active');
+
+            // 显示目标区块
+            if (section === 'home') {
+                document.getElementById('home-section').style.display = 'flex';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else if (section === 'list') {
+                document.getElementById('list-section').classList.add('active');
+                renderGrid(productData);
+            } else if (section === 'graph') {
+                document.getElementById('graph-section').classList.add('active');
+                // 初始化图谱（只在第一次显示时初始化）
+                if (!myChart) {
+                    initGraph(['PROD','ALIAS','CATEGORY','BOOK','PER','LOC','USAGE']);
+                }
+            } else if (section === 'ai') {
+                document.getElementById('ai-section').classList.add('active');
+            } else if (section === 'about') {
+                document.getElementById('about-section').classList.add('active');
+            }
+        }
+
+        // ===================== 7. 点击精选图片搜索并显示 =====================
+        function searchAndShow(productName) {
+            document.getElementById('mainSearch').value = productName;
+            searchProduct();
+        }
+
+// ===================== 8. 物产列表渲染功能 =====================
+function renderGrid(data) {
+    // ✅ 第一步：把获取关键词的代码 移到函数最开头（正确位置）
+    const keyword = document.getElementById('mainSearch').value.trim();
+    
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+    if (data.length === 0) {
+        grid.innerHTML = '<p style="text-align:center;color:var(--light-text);grid-column:1/-1;padding:40px;">未找到匹配的物产</p>';
+        return;
+    }
+    data.forEach(item => {
+        grid.innerHTML += `
+            <div class="product-card" onclick="showProductDetail('${item.name}')">
+                <div class="product-img">
+                    <img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">${item.name}</div>
+                    <span class="product-category">${item.category}</span>
+                    <!-- ✅ 这里只保留高亮插值，删除了错误的JS代码 -->
+                    <div class="product-alias">别名：${highlightText(item.alias, keyword)}</div>
+                    <div class="product-origin">产地：${highlightText(item.origin, keyword)}</div>
+                    <div class="product-usage">用途：${highlightText(item.usage, keyword)}</div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+        // 分类切换
+        function switchCategory(category, el) {
+            document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+            if (el) el.classList.add('active');
+            currentCategory = category;
+
+            let filteredData;
+            if (category === 'all') {
+                filteredData = productData;
+            } else if (category === '其他') {
+                const mainCates = ['榖之属','蔬之属','瓜之属','果之属','药之属'];
+                filteredData = productData.filter(item => !mainCates.includes(item.category));
+            } else {
+                filteredData = productData.filter(item => item.category === category);
+            }
+            renderGrid(filteredData);
+        }
+
+// ===================== 9. 搜索功能（同时显示列表和AI答案） =====================
+// 输入、删字、清空 —— 只过滤列表，绝不弹出详情
+function handleInputChange() {
+  const keyword = document.getElementById('mainSearch').value.trim();
+  const answerSection = document.getElementById('answer-section');
+
+  // 一清空，立刻隐藏结果框
+  if (keyword === '') {
+    answerSection.style.display = 'none';
+    renderGrid(productData);
+    return;
+  }
+
+  // 只更新列表
+  let filteredData = productData.filter(item => {
+    return item.name.includes(keyword)
+        || item.alias.includes(keyword)
+        || item.category.includes(keyword)
+        || item.usage.includes(keyword)
+        || item.origin.includes(keyword)    // 新增：产地检索
+        || item.desc.includes(keyword)      // 新增：形态检索
+        || item.original.includes(keyword); // 新增：县志原文检索
+  });
+  renderGrid(filteredData);
+}
+
+// 只有 点按钮 / 按回车 才显示详情结果
+function searchProduct() {
+  const keyword = document.getElementById('mainSearch').value.trim();
+  const answerSection = document.getElementById('answer-section');
+
+  if (!keyword) {
+    answerSection.style.display = 'none';
+    return;
+  }
+
+  let filteredData = productData.filter(item => {
+    return item.name.includes(keyword)
+        || item.alias.includes(keyword)
+        || item.category.includes(keyword)
+        || item.usage.includes(keyword)
+        || item.origin.includes(keyword)    // 新增：产地检索
+        || item.desc.includes(keyword)      // 新增：形态检索
+        || item.original.includes(keyword); // 新增：县志原文检索
+  });
+
+  renderGrid(filteredData);
+  generateAnswer(keyword, filteredData);
+
+  // 只有这里会显示详情框
+  answerSection.style.display = 'block';
+}
+
+// ===================== 10. 点击物产卡片显示详情（三列布局版） =====================
+function showProductDetail(productName) {
+    const p = productData.find(x => x.name === productName);
+    document.getElementById('detailBread').innerHTML = `首页 > 物产 > <span>${p.name}</span>`;
+
+    // 1. 左侧：渲染图片
+    document.getElementById('detailImg').innerHTML = `
+        <img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">
+    `;
+
+    // 2. 中间：渲染物产基础信息
+    document.getElementById('detailInfo').innerHTML = `
+        <h2 style="color: var(--primary-color); margin: 0 0 16px 0; font-size: 24px;">${p.name}</h2>
+        <div class="info-item"><span class="label">分类：</span>${p.category}</div>
+        <div class="info-item"><span class="label">别名：</span>${p.alias}</div>
+        <div class="info-item"><span class="label">产地：</span>${p.origin}</div>
+        <div class="info-item"><span class="label">用途：</span>${p.usage}</div>
+        <div class="info-item"><span class="label">形态：</span>${p.desc}</div>
+    `;
+
+    // 3. 右侧：渲染元数据信息
+    document.getElementById('detailMeta').innerHTML = `
+        <h4 style="color: var(--primary-color); margin: 0 0 16px 0; font-size: 18px;">元数据信息</h4>
+        <div class="info-item"><span class="label">来源：</span>${p.meta?.dc_source}</div>
+        <div class="info-item"><span class="label">年代：</span>${p.meta?.dc_date}</div>
+        <div class="info-item"><span class="label">作者：</span>${p.meta?.dc_creator}</div>
+        <div class="info-item"><span class="label">描述：</span>${p.meta?.dc_description}</div>
+        <div class="info-item"><span class="label">类型：</span>${p.meta?.dc_type}</div>
+    `;
+
+    // 4. 下方：渲染县志原文
+    document.getElementById('detailOriginal').innerHTML = `
+        <h4 style="color: var(--primary-color); margin: 0 0 16px 0;">县志原文</h4>
+        <div style="line-height:2;font-family:'SimSun',serif;color:#333;">${p.original}</div>
+    `;
+
+    // 切换页面逻辑
+    document.querySelectorAll('.hidden-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('home-section').style.display = 'none';
+    document.getElementById('detail-section').classList.add('active');
+}
+
+// ===================== 11. 首页检索生成答案（已修改：新增图片渲染） =====================
+function generateAnswer(keyword, matchedProducts) {
+    const answerBox = document.getElementById('answerContent');
+    
+    if (!keyword || keyword.trim() === '') {
+        answerBox.innerHTML = '<p style="color: var(--light-text); text-align: center;">请输入关键词进行检索</p>';
+        return;
+    }
+
+    // 匹配相关实体和关系
+    const matchedEntities = entitiesData.filter(item => 
+        keyword.toLowerCase().includes(item.entity.toLowerCase()) ||
+        item.entity.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    const matchedRelations = relationsData.filter(item => 
+        keyword.toLowerCase().includes(item.source.toLowerCase()) ||
+        keyword.toLowerCase().includes(item.target.toLowerCase()) ||
+        item.source.toLowerCase().includes(keyword.toLowerCase()) ||
+        item.target.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    // 生成答案
+    let answer = `<p style="font-weight: bold; font-size: 20px; margin-bottom: 20px;">您的检索：${keyword}</p>`;
+    
+    if (matchedProducts.length === 0 && matchedEntities.length === 0) {
+        answer += '<p>该问题超出本知识库范围，本平台仅提供《光绪恒春县志·物产》相关内容解答。</p>';
+    } else {
+        answer += '<p style="margin-bottom: 20px;">基于《恒春县志·物产》知识库，为您找到以下内容：</p>';
+        
+if (matchedProducts.length > 0) {
+    answer += '<h3 style="color: var(--primary-color); margin-bottom: 16px;">📚 相关物产</h3>';
+    matchedProducts.forEach(item => {
+        answer += `
+            <div style="margin: 16px 0; padding: 20px; border-left: 4px solid var(--primary-color); background: var(--bg-color); border-radius: 0 8px 8px 0; display: flex; gap: 24px; align-items: flex-start;">
+                <!-- 新增物产图片 -->
+                <div style="width: 100px; height: 130px; flex-shrink: 0; border-radius: 6px; overflow: hidden;">
+                    <img src="${item.img}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- 物产文字信息 -->
+                <div style="flex: 1;">
+                    <p style="font-weight: bold; font-size: 20px; margin-bottom: 12px; color: var(--primary-color);">物产：${item.name}</p>
+<p style="margin-bottom: 8px;"><strong>分类：</strong>${highlightText(item.category, keyword)}</p>
+<p style="margin-bottom: 8px;"><strong>别名：</strong>${highlightText(item.alias, keyword)}</p>
+<p style="margin-bottom: 8px;"><strong>产地：</strong>${highlightText(item.origin, keyword)}</p>
+<p style="margin-bottom: 8px;"><strong>用途：</strong>${highlightText(item.usage, keyword)}</p>
+<p style="margin-bottom: 8px;"><strong>形态：</strong>${highlightText(item.desc, keyword)}</p>
+<p style="margin: 12px 0; padding: 12px; background: #f5f2e9; border-radius: 6px; line-height: 1.7;">
+    <strong>县志原文：</strong>${highlightText(item.original, keyword)}
+</p>
+                    
+                    <p style="font-size: 13px; color: var(--light-text); margin-top: 12px; padding-top: 12px; border-top: 1px solid #ddd;">引用来源：《恒春县志·物产》</p>
+                </div>
+            </div>
+        `;
+    });
+}
+        
+        if (matchedEntities.length > 0) {
+            answer += '<h3 style="color: var(--primary-color); margin: 30px 0 16px;">🔗 相关实体</h3><ul style="margin-left: 20px; line-height: 2;">';
+            matchedEntities.slice(0, 15).forEach(item => {
+                answer += `<li><strong>${item.entity}</strong>：${item.context}</li>`;
+            });
+            if (matchedEntities.length > 15) answer += `<li>等${matchedEntities.length}条相关实体</li>`;
+            answer += '</ul>';
+        }
+        
+        if (matchedRelations.length > 0) {
+            answer += '<h3 style="color: var(--primary-color); margin: 30px 0 16px;">📊 相关关系</h3><ul style="margin-left: 20px; line-height: 2;">';
+            matchedRelations.slice(0, 12).forEach(item => {
+                answer += `<li><strong>${item.source}</strong> → <em>${item.value}</em> → <strong>${item.target}</strong></li>`;
+            });
+            if (matchedRelations.length > 12) answer += `<li>等${matchedRelations.length}条相关关系</li>`;
+            answer += '</ul>';
+        }
+    }
+    answerBox.innerHTML = answer;
+}
+
+// ===================== 12. 知识图谱渲染功能 =====================
+function initGraph(filterTypes) {
+    const chartDom = document.getElementById('graphContainer');
+    if (!myChart) {
+        myChart = echarts.init(chartDom);
+    }
+    
+    // 转换实体为图谱节点
+    function getGraphNodes(filterTypes) {
+        return entitiesData
+            .filter(item => filterTypes.includes(item.type))
+            .map(item => {
+                let size = 20;
+                if (item.type === 'PROD') size = 35;
+                else if (item.type === 'CATEGORY' || item.type === 'BOOK' || item.type === 'PER' || item.type === 'LOC') size = 25;
+                return {
+                    name: item.entity,
+                    value: item.context,
+                    symbolSize: size,
+                    category: item.type
+                };
+            });
+    }
+
+    // 转换关系为图谱连线
+    function getGraphLinks(nodes) {
+        const nodeNames = nodes.map(n => n.name);
+        return relationsData.filter(link => 
+            nodeNames.includes(link.source) && nodeNames.includes(link.target)
+        );
+    }
+
+    const nodes = getGraphNodes(filterTypes);
+    const links = getGraphLinks(nodes);
+
+    const option = {
+        tooltip: {
+            formatter: function(params) {
+                if (params.dataType === 'node') {
+                    return `<strong>${params.name}</strong><br/>${params.data.value}`;
+                } else if (params.dataType === 'edge') {
+                    return `${params.data.source} → ${params.data.target}<br/>关系：${params.data.value}`;
+                }
+            }
+        },
+        legend: [{
+            data: entityCategories.map(c => c.name),
+            bottom: 10,
+            textStyle: {fontFamily: 'SimSun', fontSize: 12},
+            type: 'scroll',
+            width: '90%'
+        }],
+        series: [{
+            type: 'graph',
+            layout: 'force',
+            data: nodes,
+            links: links,
+            categories: entityCategories,
+            roam: true,
+                // 👇 新增：节点点击事件
+onclick: function (params) {
+    if (params.dataType !== 'node') return;
+    const nodeName = params.name;
+    const nodeType = params.data.category;
+    const nodeDesc = params.data.value;
+
+    // 物产依旧跳详情页
+    if (nodeType === 'PROD') {
+        showProductDetail(nodeName);
+    } 
+    // 其他所有节点：弹出详情弹窗
+    else {
+        showGraphNodePopup(nodeName, nodeType, nodeDesc);
+    }
+},
+            label: {
+                show: true,
+                position: 'right',
+                formatter: '{b}',
+                fontSize: 11,
+                fontFamily: 'SimSun'
+            },
+            lineStyle: {
+                color: 'source',
+                curveness: 0.2,
+                width: 1,
+                opacity: 0.6
+            },
+            emphasis: {
+                focus: 'adjacency',
+                lineStyle: {width: 3, opacity: 1}
+            },
+            force: {
+                repulsion: 3500,
+                edgeLength: 150,
+                gravity: 0.08,
+                layoutAnimation: true
+            }
+        }]
+    };
+    myChart.setOption(option, true);
+}
+
+function filterGraph() {
+    const checkedTypes = [];
+    document.querySelectorAll('.graph-filter input:checked').forEach(checkbox => {
+        checkedTypes.push(checkbox.value);
+    });
+    initGraph(checkedTypes);
+}
+
+// ===================== 13. AI问答功能（修复版，100%运行） =====================
+function askAI() {
+    // 第一步：获取元素
+    const question = document.getElementById('aiInput').value.trim();
+    const history = document.getElementById('aiHistory');
+    
+    // 空内容不发送
+    if (!question) {
+        alert("请输入问题！");
+        return;
+    }
+    
+    // 追加用户问题
+    history.innerHTML += `
+        <div class="ai-message user">
+            <div class="role">用户</div>
+            <div>${question}</div>
+        </div>
+    `;
+    
+    // 清空输入框
+    document.getElementById('aiInput').value = '';
+
+    // 显示加载中（这行现在一定会出现！）
+    history.innerHTML += `
+        <div class="ai-message" id="loading">
+            <div class="role">AI</div>
+            <div>正在思考中...</div>
+        </div>
+    `;
+    history.scrollTop = history.scrollHeight;
+
+    // 请求后端接口
+    fetch("/api/deepseek", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+                {
+                    role: "system",
+                    content: "你是《光绪恒春县志·物产》专属问答助手，仅回答县志中物产、分类、产地、用途、别名、形态原文相关问题，严禁回答无关内容，回答简洁贴合古籍。"
+                },
+                { role: "user", content: question }
+            ],
+            temperature: 0.3,
+            max_tokens: 1500
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('loading').remove();
+        const answer = data.choices[0].message.content;
+        history.innerHTML += `
+            <div class="ai-message">
+                <div class="role">AI</div>
+                <div>${answer.replace(/\n/g, '<br>')}</div>
+            </div>
+        `;
+        history.scrollTop = history.scrollHeight;
+    })
+    .catch(err => {
+        document.getElementById('loading').remove();
+        history.innerHTML += `
+            <div class="ai-message">
+                <div class="role">AI</div>
+                <div>请求失败</div>
+            </div>
+        `;
+        console.error(err);
+    });
+}
+
+// 知识图谱非物产节点弹窗
+function showGraphNodePopup(name, type, desc) {
+    const typeMap = {
+        PROD: "物产",
+        ALIAS: "别名",
+        CATEGORY: "分类",
+        BOOK: "典籍",
+        PER: "历史人物",
+        LOC: "产地",
+        USAGE: "用途"
+    };
+
+    // 遮罩
+    const mask = document.createElement('div');
+    mask.style.position = "fixed";
+    mask.style.top = "0";
+    mask.style.left = "0";
+    mask.style.width = "100vw";
+    mask.style.height = "100vh";
+    mask.style.background = "rgba(0,0,0,0.4)";
+    mask.style.zIndex = "9999";
+    mask.style.display = "flex";
+    mask.style.alignItems = "center";
+    mask.style.justifyContent = "center";
+
+    // 弹窗盒子
+    mask.innerHTML = `
+        <div style="background:#fff; width:90%; max-width:550px; padding:30px; border-radius:12px; box-shadow:0 8px 30px #0002; font-family:SimSun;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <h3 style="color:#1a3d2f; margin:0;">${name}</h3>
+                <span style="background:#d4af37; color:#fff; padding:3px 10px; border-radius:20px; font-size:13px;">${typeMap[type]||type}</span>
+            </div>
+            <div style="line-height:1.8; color:#333; border-top:1px solid #eee; padding-top:15px;">
+                ${desc}
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" 
+            style="margin-top:20px; width:100%; padding:10px; background:#1a3d2f; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+                关闭
+            </button>
+        </div>
+    `;
+
+    mask.onclick = e => {
+        if(e.target === mask) mask.remove();
+    };
+
+    document.body.appendChild(mask);
+}
+
+// ===================== 14. 页面初始化 =====================
+window.onload = function() {
+    // 初始化物产列表（仅在点击物产浏览时渲染）
+    
+    // 窗口大小变化适配
+    window.onresize = function() {
+        if (myChart) myChart.resize();
+    };
+};
+    </script>
+</body>
+</html>
