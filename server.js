@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+
+// 👇 这一行绝对不能动！Railway 强制要求
+const port = process.env.PORT;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -178,10 +180,9 @@ app.post('/register', (req, res) => {
   res.redirect('/login');
 });
 
-// 关键：Railway 不支持 top-level await，直接注释掉 AI 接口
-// app.post('/api/deepseek', ...) 暂时全删掉
-
-// Railway 必须监听 0.0.0.0
-app.listen(port, '0.0.0.0', () => {
-  console.log('Running on port', port);
+// ==========================
+// ✅ 这是 Railway 唯一能跑的写法
+// ==========================
+app.listen(port, "0.0.0.0", () => {
+  console.log("Railway 服务启动成功 端口：", port);
 });
