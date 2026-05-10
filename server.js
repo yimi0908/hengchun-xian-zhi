@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-// 👇 这一行绝对不能动！Railway 强制要求
+// 👇 这是 Railway 唯一能识别端口的写法，不能加 || 3000
 const port = process.env.PORT;
 
 app.use(express.urlencoded({ extended: true }));
@@ -9,10 +9,8 @@ app.use(express.json());
 
 let userList = [];
 
-// 静态文件
 app.use(express.static(__dirname));
 
-// 首页
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
@@ -180,9 +178,7 @@ app.post('/register', (req, res) => {
   res.redirect('/login');
 });
 
-// ==========================
-// ✅ 这是 Railway 唯一能跑的写法
-// ==========================
+// 👇 这是 Railway 必须的监听写法
 app.listen(port, "0.0.0.0", () => {
-  console.log("Railway 服务启动成功 端口：", port);
+  console.log("Railway 服务启动成功，端口：", port);
 });
