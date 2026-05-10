@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -8,11 +9,12 @@ let userList = [];
 
 app.use(express.static(__dirname));
 
+// 首页
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// 登录页（原样）
+// 登录页
 app.get('/login', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -96,7 +98,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-// 注册页（原样）
+// 注册页
 app.get('/register', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -175,7 +177,39 @@ app.post('/register', (req, res) => {
   res.redirect('/login');
 });
 
-// ✅ 终极端口解决方案：优先使用 RAILWAY_PORT
+// ===================== AI 问答接口（已修复，Railway 可运行） =====================
+app.post('/api/deepseek', async (req, res) => {
+  try {
+    // 从环境变量获取 API Key
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+    
+    if (!apiKey) {
+      return res.status(500).json({ error: "API Key 未配置" });
+    }
+
+    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: req.body.messages,
+        temperature: 0.3,
+        max_tokens: 1500
+      })
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("AI 请求错误：", err);
+    res.status(500).json({ error: "AI 服务暂时不可用" });
+  }
+});
+
+// 终极端口解决方案
 const realPort = process.env.RAILWAY_PORT || process.env.PORT || 3000;
 
 app.listen(realPort, "0.0.0.0", () => {
