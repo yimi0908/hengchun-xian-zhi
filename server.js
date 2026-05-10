@@ -5,21 +5,21 @@ const port = process.env.PORT || 3000;
 
 // 解析表单数据
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json()); // 新增：支持AI接口JSON数据
 
-// 登录状态
+// 登录状态标记
 let isLogin = false;
 let userList = [];
 
-// 托管静态网页
+// 托管静态网页（保证你的index.html、所有文件正常加载）
 app.use(express.static(__dirname));
 
-// 首页
 app.get('/', (req, res) => {
+  // 直接显示你的平台！不跳登录了
   res.sendFile(__dirname + '/index.html');
 });
 
-// 登录页面
+// 登录页面 - 加宽卡片+加大内边距，更舒展
 app.get('/login', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -35,9 +35,11 @@ app.get('/login', (req, res) => {
                 padding-top: 120px;
             }
             .login-box {
+                /* 加宽卡片到480px，布局更舒展 */
                 width: 480px;
                 margin: 0 auto;
                 background: white;
+                /* 加大内边距，避免内容挤在一起 */
                 padding: 50px;
                 border-radius: 12px;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -106,7 +108,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-// 注册页面
+// 注册页面 - 和登录页同尺寸优化
 app.get('/register', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -152,7 +154,7 @@ app.get('/register', (req, res) => {
                 border: none;
                 border-radius: 6px;
                 cursor: pointer;
-                font-size: 16px;
+                font-size: 15px;
                 margin-top: 10px;
             }
             a {
@@ -189,9 +191,10 @@ app.post('/register', (req, res) => {
   res.redirect('/login');
 });
 
-// AI 代理接口
+// ===================== 安全DeepSeek代理接口 =====================
 app.post('/api/deepseek', async (req, res) => {
   try {
+    const fetch = (await import('node-fetch')).default;
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -207,9 +210,7 @@ app.post('/api/deepseek', async (req, res) => {
   }
 });
 
-// ==============================================
-// ✅ 【唯一】正确的启动方式（只留这一个 listen）
-// ==============================================
+// 只保留这一个启动监听！！
 app.listen(port, "0.0.0.0", () => {
-  console.log("服务启动成功 port:", port);
+  console.log("服务启动成功，端口：" + port);
 });
