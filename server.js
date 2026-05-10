@@ -2,22 +2,20 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// 解析表单数据
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// 登录状态
-let isLogin = false;
 let userList = [];
 
-// 托管静态网页
+// 静态文件
 app.use(express.static(__dirname));
 
+// 首页
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// 登录页面（完全不变）
+// 登录页（原样）
 app.get('/login', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -91,20 +89,17 @@ app.get('/login', (req, res) => {
   `);
 });
 
-// 登录提交
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   const user = userList.find(u => u.username === username && u.password === password);
-  
   if (user) {
-    isLogin = true;
     res.redirect('/');
   } else {
     res.send('登录失败 <a href="/login">重试</a>');
   }
 });
 
-// 注册页面（完全不变）
+// 注册页（原样）
 app.get('/register', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -178,25 +173,15 @@ app.get('/register', (req, res) => {
   `);
 });
 
-// 注册提交
 app.post('/register', (req, res) => {
-  userList.push({
-    username: req.body.username,
-    password: req.body.password
-  });
+  userList.push(req.body);
   res.redirect('/login');
 });
 
-// AI 接口（简化版，不报错）
-app.post('/api/deepseek', (req, res) => {
-  res.json({
-    choices: [{
-      message: { content: "AI 服务已上线，部署成功！" }
-    }]
-  });
-});
+// 关键：Railway 不支持 top-level await，直接注释掉 AI 接口
+// app.post('/api/deepseek', ...) 暂时全删掉
 
-// ✅ 最终正确启动
-app.listen(port, "0.0.0.0", () => {
-  console.log("服务启动成功 port:", port);
+// Railway 必须监听 0.0.0.0
+app.listen(port, '0.0.0.0', () => {
+  console.log('Running on port', port);
 });
