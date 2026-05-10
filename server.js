@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 
-// 👇 这是 Railway 唯一能识别端口的写法，不能加 || 3000
-const port = process.env.PORT;
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -178,7 +175,11 @@ app.post('/register', (req, res) => {
   res.redirect('/login');
 });
 
-// 👇 这是 Railway 必须的监听写法
-app.listen(port, "0.0.0.0", () => {
-  console.log("Railway 服务启动成功，端口：", port);
+// ✅ 终极端口解决方案：优先使用 RAILWAY_PORT
+const realPort = process.env.RAILWAY_PORT || process.env.PORT || 3000;
+
+app.listen(realPort, "0.0.0.0", () => {
+  console.log("✅ 服务启动成功！");
+  console.log("Railway 自动设置的 PORT：", process.env.PORT);
+  console.log("实际使用的端口：", realPort);
 });
