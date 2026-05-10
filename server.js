@@ -19,6 +19,11 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+// 👇 就改这里！！！
+app.listen(port, "0.0.0.0", () => {
+  console.log("服务启动成功，端口：" + port);
+});
+
 // 登录页面 - 加宽卡片+加大内边距，更舒展
 app.get('/login', (req, res) => {
   res.send(`
